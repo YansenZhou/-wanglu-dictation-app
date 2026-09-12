@@ -7,7 +7,7 @@
 > 本仓库 fork 自 [PipiTang233/wanglu-dictation-app](https://github.com/PipiTang233/wanglu-dictation-app)；上游项目基于 [zyxlele/wanglu-dictation](https://github.com/zyxlele/wanglu-dictation) 开发。本仓库在上游基础上新增练习中逐词查看答案、离线例句、整句朗读和本地联网代理。词汇数据版权归原作者（王陆老师/出版社）所有，工具仅限个人学习、非商用。
 
 [![在线使用](https://img.shields.io/badge/GitHub%20Pages-在线使用-2ea043)](https://yansenzhou.github.io/-wanglu-dictation-app/)
-[![版本](https://img.shields.io/badge/version-v1.8-4493f8)]()
+[![版本](https://img.shields.io/badge/version-v1.9-4493f8)]()
 [![IELTS](https://img.shields.io/badge/IELTS-听力备考-bc8cff)]()
 [![语言](https://img.shields.io/badge/language-HTML%2FJS-d29922)]()
 
@@ -22,7 +22,7 @@
 - 🔊 **内置发音模块**：无需外部音频，点击行内喇叭、按 F2 或开启自动播放即可听音
 - ✍️ **流畅听写模式**：所有单词一次列出，配合发音边听边打，Enter 跳下一格，不打断节奏
 - 👁️ **逐词查看答案**：练习过程中可随时揭示或隐藏任意一行的正确拼写，无需等整章完成
-- 💡 **离线释义与例句辅助**：逐词查看内置中文释义、音标和 1700+ 条本地英文例句；例句支持完整句子朗读，联网时自动补充并缓存更多内容
+- 💡 **全量双语例句**：5873 个词条全部内置“英文例句 + 中文翻译”；其中 1700+ 个唯一词条匹配经过校对筛选的自然中英句对，其余提供基础双语例句，GitHub Pages 和断网环境都可直接查看
 - 🎲 **乱序测试**：每个章节可一键打乱单词顺序听写，防止背顺序，成绩计入历史并标注「乱序」
 - 📈 **历史记录**：记录每次听写的日期、第几次、正确率，折线图展示进步趋势
 - 🔍 **历史详情**：可回看每次听写的错词和全部答题情况
@@ -48,11 +48,13 @@
 
 - 点击任意一行右侧的 **「答案」**，可以单独显示/隐藏该词的正确拼写，不会提前结束练习
 - 点击 **「释义/例句」**，会立即显示语料库内置的中文释义与音标
-- **没有网络也能使用**：应用内置 1700+ 条英文例句；没有匹配例句的词条会立即显示一条中文助记句，帮助把发音、拼写和意思联系起来
+- **每个词都有双语内容**：所有 5873 个词条都会立即显示英文例句和对应中文，不再出现“离线助记”占位
+- 其中 1700+ 个唯一词条匹配经过母语者/人工校对筛选的 Tatoeba 自然中英句对；其余词条使用明确成对的基础英文句和中文翻译，确保 100% 覆盖
 - 真实英文释义和例句来自 [Free Dictionary API](https://dictionaryapi.dev/)，成功获取后会保存在当前浏览器，下次离线仍可查看（最近 1000 条）
 - 本地和联网英文例句右侧都有 **「🔊 朗读」** 按钮，使用发音设置中的当前语速；再次点击可停止。例句不会再降级成逐个单词播放
 - 主词典连接失败时会自动尝试 [FreeDictionary.dev](https://api.freedictionary.dev/)，无需手动切换
-- 断网、请求失败或在线词典未收录时不会一直加载；面板会保留离线内容，并可在恢复网络后点「重试联网」
+- GitHub Pages 是静态网站，无法运行仓库中的 Python 代理；在线词典请求可能受网络或 CORS 限制，但内置双语例句完全不受影响
+- 断网、请求失败或在线词典未收录时不会一直加载；面板会保留完整的内置双语内容，并可在恢复网络后点「重试联网」
 - 在线词典未收录的长短语仍可通过面板中的「查看更多例句」继续查询
 
 ---
@@ -73,7 +75,7 @@
 需要电脑安装 Python 3。也可以在项目目录手动运行：
 
 ```powershell
-cd D:\codex_program\wanglu-dictation-app
+cd path\to\wanglu-dictation-app
 python local_server.py
 ```
 
@@ -108,6 +110,8 @@ python local_server.py
 
 内置英文例句筛选自 [Open English WordNet 2025](https://en-word.net/)，由 Open English WordNet Community 维护，采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 许可。
 
+内置自然中英句对来自 [Tatoeba](https://tatoeba.org/)（通过 [ManyThings](https://www.manythings.org/anki/) 的母语者/人工校对版本筛选），采用 [CC BY 2.0 FR](https://creativecommons.org/licenses/by/2.0/fr/) 许可。语料可能存在少量社区数据错误。
+
 ---
 
 ## 版本迁移
@@ -118,7 +122,16 @@ python local_server.py
 
 ## 更新记录
 
-### v1.8（最新）
+### v1.9（最新）
+
+**全部词条内置双语例句**
+
+- 5873 个词条全部保证显示英文例句和对应中文，不再使用“离线助记”占位
+- 新增 1700+ 个唯一词条的 Tatoeba 自然中英句对，并统一转换为简体中文
+- 未匹配自然句对的词条自动显示成对的基础英文句和中文翻译，保证离线与 GitHub Pages 100% 可用
+- 在线词典调整为可选补充；连接失败不会遮挡或影响内置双语例句
+
+### v1.8
 
 **真正解决本地联网与整句朗读**
 
@@ -141,7 +154,7 @@ python local_server.py
 **离线释义与例句辅助**
 
 - 内置 1761 个词条的 Open English WordNet 英文例句，可直接离线查看
-- 未匹配到例句的词条会立即显示本地中文释义和离线助记句，不依赖网络
+- 当时未匹配到例句的词条使用中文助记句；该行为已在 v1.9 中由全量双语例句替代
 - 在线获取成功的英文释义与例句缓存上限从 300 条提高到 1000 条
 - 断网、请求失败和词条未收录时显示明确状态，并支持恢复网络后一键重试
 - 不再永久缓存“未收录”结果，避免词典更新后仍无法重新查询
