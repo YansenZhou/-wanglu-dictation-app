@@ -127,7 +127,7 @@ canvas{display:block;}
 .rail-fill{height:2px;background:var(--accent);transition:width .2s;}
 
 .dict-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:0;}
-.row{display:grid;grid-template-columns:26px 32px 1fr 120px 28px;gap:6px;align-items:center;
+.row{display:grid;grid-template-columns:26px 32px minmax(120px,1fr) minmax(90px,150px) 28px 112px;gap:6px;align-items:center;
   padding:4px 0;border-bottom:1px solid transparent;transition:background .1s;}
 .row.active-row{background:rgba(68,147,248,.05);border-radius:6px;}
 .row.speaking{background:rgba(188,140,255,.08);border-radius:6px;}
@@ -146,7 +146,50 @@ canvas{display:block;}
 .row-input.skip{color:var(--dim);font-style:italic;}
 .row-answer{font-family:var(--mono);font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .row-answer.reveal-err{color:var(--rb);}
+.row-answer.reveal-hint{color:var(--yellow);}
 .row-icon{font-size:13px;text-align:center;user-select:none;width:24px;}
+.row-actions{display:flex;gap:4px;justify-content:flex-end;}
+.row-tool{background:var(--panel);border:1px solid var(--border2);color:var(--dim);cursor:pointer;
+  border-radius:4px;padding:3px 6px;font-family:var(--sans);font-size:10px;white-space:nowrap;transition:all .15s;}
+.row-tool:hover{border-color:var(--accent);color:var(--accent);}
+.row-tool.on{border-color:var(--yellow);color:var(--yellow);background:rgba(210,153,34,.08);}
+.row-detail{display:none;grid-column:3/-1;margin:3px 0 7px;padding:10px 12px;
+  background:rgba(68,147,248,.045);border:1px solid var(--border);border-radius:6px;}
+.row-detail.on{display:block;}
+.detail-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+.detail-word{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent);}
+.detail-phon{font-family:var(--mono);font-size:11px;color:var(--purple);}
+.detail-mean{font-size:12px;color:var(--text);}
+.detail-example{font-size:12px;color:var(--dim);line-height:1.65;border-top:1px solid var(--border);padding-top:7px;}
+.detail-offline{margin-bottom:7px;color:var(--text);}
+.detail-label{display:inline-block;margin-right:6px;padding:1px 5px;border:1px solid var(--border2);border-radius:3px;
+  color:var(--dim);font-size:10px;line-height:1.45;vertical-align:1px;}
+.detail-example-text{color:var(--text);font-family:var(--mono);}
+.detail-definition{font-size:11px;color:var(--dim);margin-top:4px;}
+.detail-source{font-size:10px;color:var(--dim);margin-left:6px;}
+.detail-more{font-size:11px;color:var(--accent);margin-left:8px;white-space:nowrap;}
+.detail-retry{display:none;margin-left:8px;border:0;background:none;padding:0;color:var(--accent);
+  font:inherit;font-size:11px;text-decoration:underline;cursor:pointer;}
+.detail-retry.on{display:inline;}
+.example-play{margin-left:7px;padding:2px 6px;border:1px solid var(--border2);border-radius:4px;
+  background:var(--panel);color:var(--accent);font-size:11px;line-height:1.35;cursor:pointer;vertical-align:1px;}
+.example-play:hover,.example-play.speaking{border-color:var(--accent);background:rgba(68,147,248,.1);}
+.example-play[hidden]{display:none;}
+
+@media (max-width:700px){
+  .dict-strip{height:auto;min-height:44px;padding:6px 10px;gap:6px;flex-wrap:wrap;}
+  .dict-strip .back-btn{padding-left:2px;}
+  .dict-meta{max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dict-strip-sep{display:none;}
+  .strip-stat{margin-left:auto;}
+  .dict-scroll{padding:12px 10px;}
+  .row{grid-template-columns:24px 26px minmax(100px,1fr) 24px 108px;}
+  .row-input{grid-column:3;}
+  .row-answer{grid-column:3;grid-row:2;min-height:18px;}
+  .row-icon{grid-column:4;grid-row:1;}
+  .row-actions{grid-column:5;grid-row:1;}
+  .row-detail{grid-column:3/-1;grid-row:3;}
+}
 
 .dict-footer{border-top:1px solid var(--border);padding:12px 20px;
   display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--bg2);flex-shrink:0;}
@@ -6426,6 +6469,10 @@ const VOCAB = {
   ]
 };
 
+// Offline examples are filtered from Open English WordNet 2025 (CC BY 4.0).
+// Source and attribution: https://en-word.net/
+const OFFLINE_EXAMPLES={"a couple of":"a couple of roses","abandonment":"his abandonment of his wife and children left them penniless","abnormal":"abnormal profits","absence":"he was surprised by the absence of any explanation","abstract":"abstract words like ‘truth’ and ‘justice’","academic":"an academic discussion","accept":"I shall have to accept these unpleasant working conditions","access":"he gained access to the building","accessible":"a town accessible by rail","accident":"winning the lottery was a happy accident","accommodation":"the nearby hotel offers overnight accommodation","according":"according to historians","account":"she turned her writing skills to good account","accountable":"governments must be accountable to someone beside themselves","accounting":"he was unable to give a clear accounting for his actions","accuracy":"he was beginning to doubt the accuracy of his compass","accurate":"an accurate reproduction","acid":"an acid reaction","acknowledgement":"she seems to avoid much in the way of recognition or acknowledgement of feminist work prior to her own","action":"the action is no longer in technology stocks but in municipal bonds","activity":"they avoided all recreational activity","actor":"he's a principal actor in this affair","adaptable":"to succeed one must be adaptable","adaptation":"the play is an adaptation of a short novel","addition":"the addition of flowers created a pleasing effect","additional":"called for additional troops","additive":"an additive process","address":"he failed in his manner of address to the captain","adequate":"she had adequate training","administration":"he claims that the present administration is corrupt","admission":"the surgery was performed on his second admission to the clinic","adolescent":"adolescent boys and girls","adult":"an adult animal","advanced":"at that time the most advanced outpost was still east of the Rockies","adventurous":"adventurous pioneers","advisable":"such action is neither necessary nor advisable","aerobic":"aerobic fermentation","affair":"it is none of your affair","affect":"Will the new rules affect me?","age":"it was replaced because of its age","agency":"an example is the best agency of instruction","aggressive":"an aggressive businessman","agreement":"there was no agreement between theory and measurement","agricultural":"an agrarian (or agricultural) society","ahead of time":"the house was completed ahead of time","aid":"rescue party went to their aid","aim":"he took aim and fired","aims":"he took aim and fired","air":"air travel involves too much waiting in airports","air pollution":"air pollution reduced the visibility","allergic":"allergic children","allowance":"He objected to the allowance of smoking in the dining room","almost":"the baby was almost asleep when the alarm sounded","alternative":"alternative possibilities were neutrality or war","altitude":"the altitude gave her a headache","amateur":"an amateur painter","amazing":"New York is an amazing city","ambassador":"an ambassador of good will","amber":"an amber light illuminated the room","ambiguous":"ambiguous words","ambition":"his ambition is to own his own business","ambitious":"ambitious schedule","amount":"an adequate amount of food for four people","analytical":"analytical reasoning","anatomy":"he studied the anatomy of crimes","ancient":"an ancient mariner","angry":"angry at the weather","animal":"animal instincts","announcement":"the government made an announcement about changes in the drug war","annoying":"tapping an annoying rhythm on his glass with his fork","annual":"a border of annual flowering plants","answer":"his answer to any problem was to get drunk","antenna":"he had a special antenna for public relations","appeal":"their appeal was denied in the superior court","appearance":"the rookie made a brief appearance in the first period","appearances":"the rookie made a brief appearance in the first period","application":"the application of maximum thrust","applied":"applied physics","appointment":"she allocated part of the trust to her church by appointment","approach":"the hunter's approach scattered the geese","approval":"his decision merited the approval of any sensible person","approximate":"approximate leaves grow together but are not united","approximately":"lasted approximately an hour","archaeological":"an archaeological dig","architectures":"the architecture of a computer's system software","ardent":"frightened by his ardent burning eyes","area":"the spacious cooking area provided plenty of room for servants","argument":"the editor added the argument to the poem","arid":"a technically perfect but arid performance of the sonata","arrange":"arrange my schedule","arrival":"they awaited her arrival","art":"art does not need to be innovative to be good","article":"an article of clothing","artificial":"that artificial humility that her husband hated","artistic":"artistic workmanship","ascending":"the ascending plane","assessment":"the assessment for repairs outraged the club's membership","assignment":"the first task is the assignment of an address to each datum","assistance":"could not walk without assistance","assistant":"my invaluable assistant","associate":"an associate member","association":"you cannot be convicted of criminal guilt by association","associations":"you cannot be convicted of criminal guilt by association","assortment":"a great assortment of cars was on display","assume":"The gods assume human or animal form in these fables","assumptions":"his assumption of office coincided with the trouble in Cuba","at least":"at least two hours studying the manual","athletic":"an athletic child","atm":"ATM is used for both LAN and WAN","atmospheric":"atmospheric tests","attachment":"attachment to a formal agenda","attack":"they won the game with a 10-hit attack in the 9th inning","attempt":"they made an attempt on his life","attend":"I must attend to this matter","attendance":"attendance was up by 50 per cent","attention":"the old car needs constant attention","attentive":"attentive to details","attic":"Attic Greek","attitude":"the actor struck just the right attitude","audience":"he requested an audience with the king","audio":"they always raise the audio for commercials","auditory":"auditory processing","authority":"authority for the program was renewed several times","autistic":"autistic behavior","automatic":"automatic transmission","automation":"automation replaces human workers by machines","automotive":"automotive supplies","available":"kept a fire extinguisher available","average":"average people","award":"an award for bravery","awards":"an award for bravery","aware":"was aware of his opponent's hostility","awful":"the awful war","background":"he is a lawyer with a sports background","badge":"wearing a tie was regarded as a badge of respectability","bald":"a bald pate","balloon":"He tried to balloon around the earth but storms forced him to land in China","band":"he noted that she wore a wedding band","bandage":"bandage an incision","bands":"he noted that she wore a wedding band","bank":"the plane went into a steep bank","bank account":"he moved his bank account to a new bank","bank statement":"I wish my bank statement arrived earlier in the month","banquet":"a banquet for the graduating seniors","barbecue":"let's barbecue that meat","barren":"writing barren of insight","barrier":"intolerance is a barrier to understanding","base":"an attempt to eliminate the base coinage","bases":"an attempt to eliminate the base coinage","basic":"a basic course in Russian","basin":"she mixed the dough in a large basin","basis":"the whole argument rested on a basis of conjecture","bath":"he has a good bath every morning","batteries":"took a battery of achievement tests","battery":"took a battery of achievement tests","battle":"he fought a battle for recognition","beats":"so beat I could flop down and go to sleep anywhere","beautiful":"a beautiful child","bed":"he sat on the edge of the bed","beginning":"the beginning canto of the poem","behavior":"the behavior of small particles can be studied in experiments","behaviors":"the behavior of small particles can be studied in experiments","belt":"a belt of high pressure","belts":"a belt of high pressure","bend":"a bend in the road","beneficial":"an arms limitation agreement beneficial to all countries","benefit":"for the benefit of all","better":"it would be better to speak to him","beverage":"may I take your beverage order?","bill":"he pulled down the bill of his cap and trudged ahead","bills":"he pulled down the bill of his cap and trudged ahead","binoculars":"binocular vision","biological":"biological child","biology":"the biology of viruses","birth":"they celebrated the birth of their first child","bizarre":"restaurants of bizarre design — one like a hat, another like a rabbit","blanket":"blanket sanctions against human-rights violators","blast":"celebrating after the game was a blast","blind":"blind to a lover's faults","block":"they put their paintings on the block","blocks":"they put their paintings on the block","blond":"blond Scandinavians","blood":"a person of hot blood","blood pressure":"adult blood pressure is considered normal at 120/80 where the first number is the systolic pressure and the second is the diastolic pressure","bloom":"you will stop all bloom if you let the flowers go to seed","board":"he got out the board and set up the pieces","bog":"The vote would bog down the house","bone":"bone the turkey before roasting it","bones":"bone the turkey before roasting it","book":"he used a large book as a doorstop","booking":"wondered who had made the booking","boot":"what a boot!","bottle collection":"bottle collection is a hobby of hers","bowl":"My parents like to bowl on Friday nights","bowls":"My parents like to bowl on Friday nights","branch":"a branch of the sewer","breakfast":"We breakfast at seven","breathe":"I can breathe better when the air is clean","breathtaking":"breathtaking adventure","breeding":"the breeding population","bridge":"her glasses left marks on the bridge of her nose","british":"his wife is British","broad":"a broad political stance","bronze":"bronze baby shoes","bubble":"he didn't want to burst the newcomer's bubble","budget":"the president submitted the annual budget to Congress","building":"his hobby was the building of boats","bulb":"the bulb of a syringe","bump":"the bump threw him off the bicycle","buried":"the hastily buried corpses","bus":"he always rode the bus to work","buses":"he always rode the bus to work","business":"his business with the cane was hilarious","cable":"cable trees","cable car":"they took a cable car to the top of the mountain","cables":"cable trees","calculating":"the most calculating and selfish men in the community","calendar":"I have you on my calendar for next Monday","camp":"they played up the silliness of their roles for camp effect","campaign":"I managed his campaign for governor","canals":"the alimentary canal","canoe":"canoe along the canal","capital":"capital A","capture":"capture the essence of Spring","caravan":"we were part of a caravan of almost a thousand camels","cardboard":"cardboard caricatures of historical figures","cardiovascular":"cardiovascular conditioning","care":"he wrote the manual on car care","career":"the general had had a distinguished career","carpet":"a carpet of flowers","carpets":"a carpet of flowers","carve":"Carve a flower from the ice","cashier":"cashier the literal sense of this word","casual":"a casual (or cursory) inspection failed to reveal the house's structural flaws","catastrophic":"a catastrophic depression","cathedral":"a cathedral church","cattle":"so many head of cattle","cause":"they worked in the cause of world peace","cautious":"reserved and cautious; never making swift decisions","celebrations":"the celebration of marriage","celebrity":"he was a baseball celebrity","cement":"they stood on the grey cement beside the pool","central":"a central position","cereals":"a cereal beverage","chair":"he was awarded an endowed chair in economics","challenging":"performed the most challenging task without a mistake","champion":"a champion show dog","chance":"a chance occurrence","channel":"a satellite TV channel","chapter":"he read a chapter every night before falling asleep","character":"the radical character of our demands","charge":"his charge was to deliver a message","charges":"his charge was to deliver a message","chart":"chart the territory","check out":"Check out the engine","checks":"they made a check of their equipment","cheerful":"her cheerful nature","cheese":"cheese the yarn","chemicals":"chemical engineer","child":"he remained a child in practical matters as long as he lived","choice":"choice wines","chronological":"chronological age","church":"don't be late for church","cinema":"this story would be good cinema","circle":"they had excellent seats in the dress circle","circular":"the circular motion of the wheel","circumstance":"pomp and circumstance","city":"the city voted for Republicans in 1994","clap":"clap two boards together","clarity":"when she awoke the clarity was back in her eyes","classical":"classical Marxism","clay":"honor comes to bless the turf that wraps their clay","clean":"after a long dependency on heroin she has been clean for 4 years","cleaning":"he gave his shoes a good cleaning","clear":"a clear and present danger","clerical":"clerical skills","clever":"a clever gadget","cliff":"he stood on a high cliff overlooking the town","cliffs":"he stood on a high cliff overlooking the town","climate":"the dank climate of southern Wales","cloth":"woven cloth originated in Mesopotamia around 5000 BC","club":"he played the drums at a jazz club","clumsy":"a clumsy apology","coast":"the children lined up for a coast down the snowy slope","coastal":"coastal marshes","code":"Code the pieces with numbers so that you can identify them later","coffee":"he ordered a cup of coffee","coffee break":"a ten-minute coffee break","cognitive":"cognitive psychology","coincidence":"the interval determining the coincidence gate is adjustable","coke":"petroleum oils coke after distillation","collaboration":"they worked either in collaboration or independently","collaborative":"collaborative research","collision":"a collision of interests","colony":"the American colony in Paris","comfortable":"comfortable clothes","comment":"he wrote an extended comment on the proposal","commercial":"commercial trucker","commercials":"commercial trucker","commission":"he works on commission","commitment":"his long commitment to public service","common":"the common man","common sense":"Common sense is not so common","commonsense":"commonsense scholarship on the foibles of a genius","communication":"they could not act without official communication from Moscow","community":"he was well known throughout the Catholic community","company":"he started the company in his garage","comparison":"they made a comparison of noise levels","competition":"he wanted to know what the competition was doing","competitive":"highly competitive sales representative","complete":"a complete meal","completed":"the completed project","complex":"a complex set of variations based on a simple folk melody","complicated":"a complicated problem","components":"a component or constituent element of a system","composition":"he envied the composition of their faculty","comprehension":"how you can do that is beyond my comprehension","comprehensive":"comprehensive coverage","compressed air":"compressed air is often used to power machines","compulsory":"in most schools physical education is compulsory","concentrated":"their concentrated efforts","concern":"the safety of the ship is the captain's concern","concert":"concert one's differences","concession":"he got the beer concession at the ball park","conclusion":"jump to a conclusion","conclusive":"conclusive proof","concrete":"concrete objects such as trees","condition":"the human condition","confidence":"after that failure he lost his confidence","confident":"was confident he would win","confirmation":"fossils provided further confirmation of the evolutionary theory","conflict":"he noticed a conflict in the dates of the two meetings","confusing":"sent confusing signals to Iraq","congestion":"traffic congestion","congress":"the lovers met discreetly for the purposes of sexual congress","connect":"I cannot connect these two pieces of evidence in my mind","connected":"first check to see whether the appliance is connected","connectives":"connective remarks between chapters","conquest":"the conquest of space","conscious":"few voters seem conscious of the issue's importance","consensus":"the lack of consensus reflected differences in theoretical positions","consequence":"decisions of great consequence are made by the president himself","consequences":"decisions of great consequence are made by the president himself","conservative":"a conservative estimate","consideration":"he showed no consideration for her feelings","consistent":"testimony consistent with the known facts","consolidation":"a consolidation of two corporations","constant":"a man constant in adherence to his ideals","construction":"the assignment was to make a construction that could be used in proving the Pythagorean theorem","consumption":"the consumption of energy has increased steadily","contact":"they kept in daily contact","content":"the two groups were similar in content","continent":"pioneers had to cross the continent on foot","contribution":"I am proud of my contribution in advancing the project","contributory":"a contributory factor","controversial":"the issue of the death penalty is highly controversial","convenience":"they offered the convenience of an installment plan","convenient":"a convenient excuse for not going","conventional":"conventional wisdom","cookery":"people are needed who have experience in cookery","cooking":"cooking can be a great art","cooperations":"economic cooperation","cooperative":"a cooperative effort","copy":"she made a copy of the designer dress","cord":"the bundle was tied with a cord","core":"each core has three wires passing through it, providing the means to select and detect the contents of each bit","corn":"that movie was pure corn","corpse":"the end of the police search was the discovery of a corpse","corrections":"for a career in corrections turn to the web site of the New Jersey Department of Corrections","correlation":"what is the correlation between those two variables?","correspondence":"the results of two tests were in correspondence","corrupt":"humanity they knew to be corrupt … from the day of Adam's creation","cosmetics":"cosmetic surgery","cost":"he couldn't calculate the cost of the collection","cost of living":"a rise in the cost of living reflects the rate of inflation","costly":"costly jewelry","costume":"he won the prize for best costume","cotton":"cotton to something","council":"emergency council","country":"the whole country worshipped him","course":"if you persist in that course you will surely fail","coverage":"the dictionary's coverage of standard English is excellent","crack":"a crack shot","craft":"he represented the craft of brewers","cream":"the cream of England's young men were killed in the Great War","credit":"she already had several performances to her credit","creek":"the creek dried up every summer","creeks":"the creek dried up every summer","crisis":"after the crisis the patient either dies or gets better","critical":"a critical attitude","criticism":"constructive criticism is always appreciated","crop":"the latest crop of fashions is about to hit the stores","crops":"the latest crop of fashions is about to hit the stores","crossroads":"Freud's work stands at the crossroads between psychology and neurology","crucial":"a crucial moment in his career","cultivation":"her cultivation was remarkable","cultural":"a cultural variety","culture":"the culture of oysters","cup":"he put the cup back in the saucer","curly":"they envied her naturally curly hair","currency":"the currency of ideas","current":"current events","currently":"currently they live in Connecticut","curry":"curry tanned leather","curtain":"a curtain of secrecy","curve":"her hips curve nicely","cushion":"cushion the blow","cycle":"a year constitutes a cycle of the seasons","daily":"daily routine","damage":"how much is the damage?","damages":"how much is the damage?","damp":"clothes damp with perspiration","danger":"there was a danger he would do the wrong thing","dangerous":"a dangerous operation","dark":"the theater is dark on Mondays","data":"statistical data","date":"she asked how to avoid kissing at the end of a date","dateline":"dateline a newspaper article","day":"he deserves his day in court","debt":"he is badly in debt","debts":"he is badly in debt","decision":"the burden of decision was his","decisions":"the burden of decision was his","decline":"in many languages, speakers decline nouns, pronouns, and adjectives","decorative":"the buildings were utilitarian rather than decorative","deficiency":"water is the critical deficiency in desert regions","definition":"exercise had given his muscles superior definition","degree":"it is all a matter of degree","delay":"instant replay caused too long a delay","delight":"the new car is a delight","delivery":"his reluctant delivery of bad news","democratic":"democratic art forms","demonstration":"he gave the customer a demonstration","dense":"so dense he never understands anything I say to him","department":"baking is not my department","departmental":"departmental policy","dependable":"a dependable worker","dependent":"dependent children","deposit":"his deposit was refunded when he returned the car","depressing":"the economic outlook is depressing","depression":"depression of the space bar on the typewriter","depth":"the depth of his breathing","description":"every description of book was there","design":"he contributed to the design of a new instrument","designer":"he is believed to be the principal designer of the terrorist bombing attack","destination":"he was nearly exhausted as their destination came into view","destinations":"he was nearly exhausted as their destination came into view","detail":"the essay contained too much detail","detailed":"a detailed plan","details":"after the trial he gave us the real details","determination":"the determination of molecular structures","dial":"dial a telephone number","dialogue":"they disagreed but kept an open dialogue","dictation":"he signed and mailed his dictation without bothering to read it","diet":"He has high blood pressure and must stick to a low-salt diet","difference":"the difference in her is amazing","different":"advertising that strives continually to be different","digestion":"his appetite for facts was better than his digestion","digestive":"digestive juices","dimension":"These techniques permit us to dimension the human heart","dinner":"dinner will be at 8","direct":"the direct opposite","direction":"a new council was installed under the direction of the king","directly":"the path leads directly to the lake","disability":"reading disability","disabled":"technology to help the elderly and the disabled","disaster":"the earthquake was a disaster","disastrous":"the battle was a disastrous end to a disastrous campaign","discipline":"the offenders deserved the harsh discipline they received","discount":"I never discount these books — they sell like hot cakes","discussion":"the book contains an excellent discussion of modal logic","dish":"marriage was scarcely his dish","dismissive":"they took dismissive action after the third violation","disorders":"the doctor prescribed some medicine for the disorder","disposal":"used all the resources at his disposal","dispute":"he had a dispute with his wife","disputes":"he had a dispute with his wife","dissatisfaction":"he was never slow to express his dissatisfaction with the service he received","distance":"the distance from New York to Chicago","distant":"distant lands","distinct":"Claudius was the first to invade Britain with distinct … intentions of conquest","distraction":"he drives me to distraction","ditch":"ditch the land to drain it","diversity":"a diversity of possibilities","dizzy":"a dizzy blonde","document":"Can you document your claims?","documentation":"his documentation of the results was excellent","documents":"Can you document your claims?","dollar":"he worships the almighty dollar","domestic":"domestic wine","dominance":"her apparent dominance of her husband was really her attempt to make him pay attention to her","dominant":"television plays a dominant role in molding public opinion","door":"he knocked on the door","draft":"he took a sleeping draft","dramatic":"a dramatic entrance in a swirling cape","draw":"he played only draw and stud","dress":"a dress dinner","drink":"drink was his downfall","driving":"a driving personal ambition","drop-off":"there was a sharp drop-off in sales","drought":"farmers most affected by the drought hope that there may yet be sufficient rain early in the growing season","due":"payment is due","durable":"hopes for a durable peace","duration":"the ceremony was of short duration","dust":"the furniture was covered with dust","duty":"we must instill a sense of duty in our children","eagle":"the Roman eagle","ear":"he had a keen ear","east":"we travelled east for several miles","eastern":"an eastern wind","economic":"an economic use of home heating oil","economy":"it was a small economy to walk to work every day","editorials":"editorial column","education":"he received no formal education","educational":"an educational film","effect":"she retained that bold effect in her reproductions of the original painting","effective":"a decline in the effective demand","effectively":"she is effectively his wife","efficient":"an efficient secretary","efficiently":"he functions efficiently","elastic":"an elastic band","electricity":"the stage crackled with electricity whenever she was on it","electronically":"the door opens electronically","elementary":"an elementary problem in statistics","elements":"they felt the full fury of the elements","emotional":"he would become emotional over nothing at all","empty":"an empty glass","ending":"I don't like words that have ‘-ism’ as an ending","energies":"his writing conveys great energy","engine":"an engine of change","engineering":"he had trouble deciding which branch of engineering to study","engrave":"engrave a pen","enjoyable":"the company was enjoyable","enormous":"an enormous boulder","enthusiastic":"enthusiastic crowds filled the streets","entrance":"she made a grand entrance","envious":"envious of their art collection","environmental":"environmental pollution","epidemic":"an epidemic outbreak of influenza","episodic":"an account concerned primarily with episodic events such as the succession of rulers","erosion":"after the accounting scandal there was an erosion of confidence in the auditors","essential":"the essential feature","estate agent":"in England they call a real estate agent a ‘land agent’","ethic":"the Puritan ethic","ethical":"an ethical lawyer","ethnics":"ethnic food","evaluative":"the literary judge uses many evaluative terms","evening":"he enjoyed the evening light across the lake","event":"he acted very wise after the event","evidence":"the evidence that smoking causes lung cancer is very compelling","evolution":"the evolution of Greek civilization","evolutionary":"evolutionary biology","exaggerate":"tended to romanticize and exaggerate this ‘gracious Old South’ imagery","example":"this patient provides a typical example of the syndrome","excavation":"there's an interesting excavation going on near Princeton","exception":"with the exception of the children, everyone was told the news","exchange":"the endgame began after the exchange of queens","excitement":"he could hardly conceal his excitement when she agreed","exciting":"an exciting account of her trip","excuse":"a poor excuse for an automobile","exercises":"an exercise in futility","exhibition":"a remarkable exhibition of musicianship","existence":"the biggest tree in existence","existent":"an attempt to refine the existent machinery to make it more efficient","existing":"much of the beluga caviar existing in the world is found in the Soviet Union and Iran","exotic":"an exotic hair style","expansion":"the expansion of (a+b)^2 is a^2 + 2ab + b^2","expedition":"an expedition was sent to explore Mars","expense":"at the expense of","expensive":"expensive clothes","experiment":"as an experiment he decided to grow a beard","experimental":"experimental results that supported the hypothesis","expert":"an expert job","explanation":"the explanation was very simple","exploration":"he called for a careful exploration of the consequences","explosion":"the explosion of the firecrackers awoke the children","exposition":"we would have understood the play better if there had been some initial exposition of the background","exposure":"she denounced the exposure of children to pornography","express":"her express wish","extension":"extension of the program to all in need","extensive":"an extensive Roman settlement in northwest England","exterior":"an exterior scene","extinct":"an extinct volcano","extinction":"the extinction of the lights","extra":"need extra help","eye contact":"a teacher should make eye contact with the students","eye contacts":"a teacher should make eye contact with the students","eye-catching":"eye-catching posters","fabric":"the fabric in the curtains was light and semitransparent","facilities":"a cell phone with internet facility","facility":"a cell phone with internet facility","factor":"a key factor in her success","factors":"a key factor in her success","factual":"factual considerations","failure":"he resented my failure to return his call","fair":"young fair maidens","fake":"it isn't fake anything; it's real synthetic fur","falcon":"The tribes like to falcon in the desert","falcons":"The tribes like to falcon in the desert","fallout":"a strategy to contain the fallout from the accounting scandal","famed":"a famed scientist","familiar":"on familiar terms","famous":"a famous actor","fan":"fan hatred","fancy":"fancy handwriting","fantastic":"fantastic Halloween costumes","farm":"it takes several people to work the farm","farming":"farming communities","fascinating":"a fascinating woman","fashion":"in an abrasive fashion","fashionable":"fashionable clothing","fat":"he hadn't remembered how fat she was","fault":"it was John's fault","faulty":"he submitted a faulty report","favourite":"a favorite tourist attraction","feast":"a feast for the eyes","feature":"they ran a feature on retirement planning","fee":"fee the steward","fellowship":"the church welcomed new members into its fellowship","female":"a female heir","festival":"a drama festival","field":"they are outstanding in their field","figure":"he made a figure of Santa Claus","film":"the table was covered with a film of dust","final":"the judge's decision is final","fine":"fine wine","fine arts":"a collection of fine art","finger":"finger the binding of the book","fireplace":"the fireplace was so large you could walk inside it","fireplaces":"the fireplace was so large you could walk inside it","firewood":"they collected and cut their own firewood","firm":"a firm grasp","firms":"a firm grasp","fish":"the shark is a large fish","flag":"Flag this file so that I can recognize it immediately","flash":"a flash car","flat":"flat sales for the month","flesh":"the spirit is willing but the flesh is weak","flexibility":"he enjoyed the flexibility of his working arrangement","flexible":"slim flexible birches","flight":"his flight was an indication of his guilt","flood":"a flood of requests","floor":"we spread our sleeping bags on the dry floor of the tent","flour":"flour fish or meat before frying it","flourish":"he entered to a flourish of trumpets","flow":"the flow of thought","fluids":"a fluid situation fraught with uncertainty","fly":"fly into a rage","foot":"he followed on foot","footprint":"the computer had a desktop footprint of 10 by 16 inches","for sale":"many houses in the area are for sale","foreign":"foreign nations","foreseeable":"foreseeable costs were well within the budget","form":"his resentment took the form of extreme hostility","formal":"pay one's formal respects","format":"Please format this disk before entering data!","formation":"the formation of sentences","former":"the novel was made into a film in 1943 and again in 1967; I prefer the former version to the latter one","formula":"his formula for impressing visitors","forthcoming":"federal funds were not forthcoming","fortnight":"most major tennis tournaments last a fortnight","fortune":"it was as if fortune guided his hand","fragile":"she has the fragile beauty of youth","fragment":"a fragment of rock","free":"a free translation of the poem","frequent":"a frequent (or common) error is using the transitive verb ‘lay’ for the intransitive ‘lie’","freshman":"a freshman senator","fruit":"he lived long enough to see the fruit of his policies","frustration":"her constant complaints were the main source of his frustration","fuel":"more fuel is needed during the winter months","fuels":"more fuel is needed during the winter months","full-time":"a full-time job","function":"the function of a teacher","fund":"fund a medical care plan","fundamental":"an example that was fundamental to the argument","funnel":"funnel the liquid into the small bottle","fur seals":"the male fur seal is much larger than the female","furniture":"they had too much furniture for the small apartment","further":"nothing could be further from the truth","future":"some future historian will evaluate him","galaxy":"‘extragalactic nebula’ is a former name for ‘galaxy’","gallery":"shooting gallery","gap":"there was a gap in his account","garage":"we don't garage our car","garbage":"she tossed the moldy bread into the garbage","garden":"it is a common or garden sparrow","general":"the general discontent","generous":"a generous portion","genetic":"genetic research","genius":"he has a genius for interior decorating","gesture":"a political gesture","give up":"Both sides have to give up some claims in these negotiations","glass":"She collected old glass","global":"global war","goal":"the winning goal came with less than a minute left to play","gold":"a gold carpet","gold coast":"Chicago's gold coast is along Lake Michigan","goods":"the experience was good for her","grade":"the road had a steep grade","grades":"the road had a steep grade","graduate":"graduate courses","graduates":"graduate courses","grain":"sand of a fine grain","graphics":"graphic sexual scenes","grass":"The owners decided to grass their property","grateful":"a grateful heart","gravity":"the more remote the body, the less the gravity","greek":"Greek mythology","green":"a green tree","grocery":"the grocery store included a meat market","grocery stores":"the grocery store included a meat market","ground":"they gained ground step by step","ground floor":"he got in on the ground floor","group":"Can you group these shapes together?","growth":"a growth of trees","guide":"They had the lights to guide on","gulf":"he felt a gulf between himself and his former friends","guy":"a nice guy","habit":"she had a habit twirling the ends of her hair","habitat":"a marine habitat","hall":"lecture hall","hammer":"the sudden hammer of fists caught him off guard","hand":"give me a hand with the chores","handles":"he grabbed the hammer by the handle","handling":"the handling of prisoners","handy":"found a handy spot for the can opener","hardback":"hardback books","hardship":"a life of hardship","harmful":"too much sun is harmful to the skin","harsh":"the harsh facts of court delays","hat":"he took off his politician's hat and talked frankly","hawk":"the tribes like to hawk in the desert","hazardous":"skydiving is a hazardous sport","heading":"the heading seemed to have little to do with the text","health":"his delicate health","healthy":"a rosy healthy baby","hearing":"they make good music — you should give them a hearing","heart":"he had a change of heart","heartbeats":"New York is the commercial heartbeat of America","heating":"the heating system wasn't working","heavy":"a heavy sky","hedges":"diversify your financial portfolio to hedge price risks","herds":"the children resembled a fairy herd","hibernation":"he emerged from his hibernation to make his first appearance in several years","high seasons":"they traveled to Europe in high season","higher":"higher education","highlight":"the highlight of the tour was our visit to the Vatican","hike":"she enjoys a hike in her spare time","hilarious":"hilarious broad comedy","hint":"a hint mockery in her manner","hints":"a hint mockery in her manner","historical":"historical (or historic) times","hit":"he came all the way around on Williams' hit","hits":"he came all the way around on Williams' hit","hive":"bees hive honey and pollen","holiday":"we took a short holiday in Puerto Rico","hopeless":"she handed me a hopeless jumble of papers","horror":"the painting that others found so beautiful was a horror to him","horse":"500 horse led the attack","hour":"we live an hour from the airport","household":"It was a good Christian household","households":"It was a good Christian household","hunt":"the hunt for submarines","idea":"a rough idea how long it would take","ideal":"a poem or essay may be typical of its period in idea or ideal content","identical":"identical twins are monovular","identification":"the thief's identification was followed quickly by his arrest","identities":"you can lose your identity when you join the army","identity":"you can lose your identity when you join the army","ill":"ill omens","illegal":"an illegal chess move","illustrate":"illustrate a book with drawings","image":"the emperor's tomb had his image carved in stone","imaginative":"an imaginative use of material","immune":"immune to persuasion","impact":"the book had an important impact on my thinking","impairment":"hearing impairment","implement":"implement a procedure","implication":"the expectation was spread both by word and by implication","important":"important people","imports":"the import of his announcement was ambiguous","impossible":"an impossible dream","impressive":"gave an impressive performance as Othello","in advance":"when you pay ahead (or in advance) you receive a discount","in circles":"the candidates talked in circles","inaccurate":"an inaccurate translation","inadequate":"inadequate training","incident":"incident light","inclusion":"an inclusion in the cytoplasm of the cell","incoming":"the incoming president","incorrect":"an incorrect transcription","incredible":"at incredible speed","index":"index the book","indication":"an indication of foul play","indigenous":"the Ainu are indigenous to the northernmost islands of Japan","individual":"individual drops of rain","individuals":"individual drops of rain","industrial":"industrial carpeting","industry":"American industry is making increased use of computers to control production","infection":"ambitious men are led astray by an infection that is almost unavoidable","influence":"used her parents' influence to get the job","influential":"an influential newspaper","information":"the signal contained thousands of bits of information","ingredient":"humor: an effective ingredient of a speech","ingredients":"humor: an effective ingredient of a speech","initial":"took the initial step toward reconciliation","initials":"took the initial step toward reconciliation","initiation":"she looked forward to her initiation as an adult","initiative":"the initiative phase in the negotiations","ink":"ink a pen","inland":"the town is five miles inland","innocence":"the trial established his innocence","innovative":"stylistically innovative works","instant coffee":"the advantages of instant coffee are speed of preparation and long shelf life","instinct":"words instinct with love","instinctive":"offering to help was as instinctive as breathing","institute":"institute proceedings","institutes":"institute proceedings","institution":"the institution of marriage","institutions":"the institution of marriage","instruction":"our instruction was carefully programmed","instrument":"my greed was the instrument of my destruction","insufficient":"insufficient funds","insulation":"the insulation of England was preserved by the English Channel","intact":"fought to keep the union intact","intelligence":"we sent out planes to gather intelligence on their radar coverage","intelligent":"is there intelligent life in the universe?","intense":"intense blue","intensive":"the questioning was intensive","interest":"in the interest of safety","interior":"interior regions of the earth","intermediate":"going from sitting to standing without intermediate pushes with the hands","internal":"internal organs","international":"international trade","interpret":"How do you interpret his behavior?","interpreter":"his paintings reveal a sensitive interpreter of nature","interruption":"the telephone is an annoying interruption","intervention":"the purpose of intervention is to prevent unnecessary duplication of lawsuits","intimate":"pretending she is on an intimate footing with those she slanders","intolerance":"his intolerance of interruptions","intricate":"intricate lacework","introduction":"they resisted the introduction of impractical alternatives","introductory":"began the slide show with some introductory remarks","invalid":"the license is invalid","invasion":"the tumor's invasion of surrounding structures","invasive":"invasive tourists","investment":"this job calls for the investment of some hard thinking","irregular":"an irregular heartbeat","irritation":"any food produced irritation of the stomach","isolated":"tiny isolated villages remote from centers of civilization","isolation":"he opposed a policy of American isolation","issue":"a new issue of stamps","item":"he noticed an item in the New York Times","jam":"Jam the Voice of America","jar":"he drank a jar of beer","joke":"I regarded his campaign for mayor as a joke","judge":"I cannot judge some works of modern art","juice":"when the wiring was finished they turned on the juice","junior":"the junior class","juniors":"the junior class","keeper":"am I my brother's keeper?","keepers":"am I my brother's keeper?","key":"he spoke in a low key","kid":"kid gloves","kidney":"urine passes out of the kidney through ureters to the bladder","king":"the lion is the king of beasts","kit":"a fox kit","kits":"a fox kit","knot":"a small knot of women listened to his sermon","knowledgeable":"a knowledgeable critic","label":"the artists and repertoire department of a recording label is responsible for finding new talent","labels":"the artists and repertoire department of a recording label is responsible for finding new talent","labor":"his labor did not require a great deal of skill","labour":"his labor did not require a great deal of skill","lace":"lace the shoelaces","ladder":"he climbed the career ladder","land":"there's no work on the land any more","landmark":"the church steeple provided a convenient landmark","landmarks":"the church steeple provided a convenient landmark","landscape":"the political landscape looks bleak without a change of administration","language":"language sets homo sapiens apart from all other animals","latest":"the very latest scientific discoveries","latin":"Latin verb conjugations","layer":"layer the different colored sands","least":"didn't care the least bit","lecture":"a good lecture was my father's idea of discipline","legal":"a legal pass receiver","leisure":"he lacked the leisure for golf","length":"a length of timber","lens":"the writer is the lens through which history can be seen","lesson":"he did the lesson for today","letter":"mailed an indignant letter to the editor","level":"acres of level farmland","liberty":"liberty of opinion","library":"they had brandy in the library","lid":"he raised the piano lid","life insurance":"in England they call life insurance ‘life assurance’","lift":"he responded with a lift of his eyebrow","light":"a room that is light when the shutters are open","lighting":"an interior decorator must understand lighting","lights":"a room that is light when the shutters are open","limitation":"it is growing rapidly with no limitation in sight","limitations":"it is growing rapidly with no limitation in sight","line":"he's not in my line of business","liquids":"the liquid air of a spring morning","lists":"the ship developed a list to starboard","literary":"when trying to impress someone she spoke in an affected literary style","literature":"her place in literature is secure","little":"a nice little job","loan":"loan me some money","loans":"loan me some money","location":"they shot the film on location in Nevada","lock":"The therapist noticed that the patient's knees tended to lock in this exercise","lonely":"felt sad and lonely","long-lasting":"a long-lasting friendship","loss":"everyone expected him to win so his loss was a shock","loyal":"loyal supporters","loyalty":"they felt no loyalty to a losing team","luck":"bad luck caused his downfall","luxurious":"enjoyed a luxurious suite with a crystal chandelier and thick oriental rugs","machine":"he was endorsed by the Democratic machine","machinery":"the complex machinery of negotiation","magazine":"it takes several years before a magazine starts to break even or make money","magic":"magic signs that protect against adverse influence","magical":"a magical spell","magnificent":"magnificent cathedrals","mail":"the mail handles billions of items every day","mails":"the mail handles billions of items every day","maintenance":"unlike champerty, criminal maintenance does not necessarily involve personal profit","major":"a major portion (a majority) of the population","majority":"the majority of his customers prefer it","making":"the making of measurements","male":"a male infant","manipulation":"his manipulation of his friends was scandalous","manufacture":"an improvement in the manufacture of explosives","manufacturing":"manufacturing is vital to Great Britain","map":"We haven't even begun to map the many galaxies that we know exist","mapping":"detailed mapping of the structure of rocks","margin":"the margin of victory","mark":"hit the mark","market":"without competition there would be no market","marketing":"does the weekly marketing at the supermarket","martial":"martial law","mask":"no mask could conceal his ignorance","mass":"he received a mass of correspondence","master":"the master bedroom","mat":"a mat of weeds and grass","material":"the material universe","mating":"the mating of some species occurs only in the spring","matter":"they were friends and it was no matter who won the games","mature":"mature plans","maximum":"maximum pressure","measure":"they set the measure for all subsequent work","mechanism":"a mechanism of social control","medical":"medical treatment","medicine":"he studied medicine at Harvard","medieval":"a medieval attitude toward dating","meditation":"the habit of meditation is the basis for all real knowledge","medium":"medium bombers","meetings":"there was no meeting of minds","mental":"a mental patient","mess":"a mess of porridge","message":"he sent a three-word message","microscope":"the invention of the microscope led to the discovery of the cell","microscopic":"differences were microscopic","mid":"in mid-1958","migratory":"migratory workers","mile":"he holds the record in the mile","miles":"he holds the record in the mile","military":"military police","milk":"milk the tea","mill":"mill grain","mine":"mine ores and metals","mineral":"the inorganic mineral world","miniature":"a miniature camera","minimum":"minimum wage","minority":"when the vote was taken they were in the minority","minute":"a minute inspection of the grounds","mirror":"the best mirror is an old friend","miserable":"the company donated a miserable $100 for flood relief","misleading":"a misleading similarity","mixture":"a gradual mixture of cultures","mobile":"upwardly mobile","model":"model citizens","moderate":"a moderate penalty","modern":"Modern English","modification":"a modification of last year's model","modify":"please modify this letter to make it more polite","money":"all his money is in real estate","monogamous":"monogamous marriage","monopoly":"They have no monopoly on intelligence","month":"he was given a month to pay the bill","mood":"the national mood had changed radically since the last election","moonlight":"moonlight is the smuggler's enemy","motivation":"his motivation was at a high level","mouth":"the jar had a wide mouth","movie":"they went to a movie every Saturday night","municipal":"municipal government","muscle":"the senators used their muscle to get the party leader to resign","music":"his music was his central interest","musical":"a musical speaking voice","nap":"there wasn't time for a nap","nationality":"immigrants of the same nationality often seek each other out","natural":"a natural reaction","nature":"it is his nature to help others","navigate":"Is anyone volunteering to navigate during the trip?","navigation":"the channel will be open to navigation as soon as the ice melts","navigational":"navigational aids","neck":"the banjo had a long neck","negative":"minus (or negative) factors","nervous":"a nervous addict","nest":"a machine-gun nest","net":"the net result","newspaper":"when it began to rain he covered his head with a newspaper","night":"it vanished into the night","nights":"it vanished into the night","noble":"a noble tree","noise":"all the noise in his speech concealed the fact that he didn't have anything to say","noisy":"a noisy sweater","normal":"serve wine at normal room temperature","north":"artists like north light","northern":"a northern snowstorm","nose":"the nose of the rocket heated up on reentry","notable":"a notable historian","note":"it ended on a sour note","notice":"he escaped the notice of the police","noticeable":"noticeable shadows under her eyes","numerous":"numerous times","nurse":"You cannot nurse your baby in public in some places","nut":"a car nut","nuts":"a car nut","objective":"objective benefits","obligation":"he is under an obligation to finish the job","obstacles":"lack of imagination is an obstacle to one's advancement","obvious":"obvious errors","occasion":"an occasion arranged to honor the president","occasional":"took an occasional glass of wine","occupancy":"occupation of a building without a certificate of occupancy is illegal","occupation":"occupation of a building without a certificate of occupancy is illegal","occupational":"occupational hazard","odd":"it is odd that his name is never mentioned","offer":"a generous offer of assistance","office":"he rented an office in the new building","officer":"an officer is responsible for the lives of his men","olympic":"Olympic winners","one-way":"one-way streets","opened":"the newly opened road","operation":"her smooth operation of the vehicle gave us a surprisingly comfortable ride","operator":"the operator of the switchboard","opportunities":"the holiday gave us the opportunity to visit Washington","optic":"the optic (or optical) axis of the eye","optimistic":"in an optimistic mood","option":"what option did I have?","oral":"the oral cavity","orbit":"in the political orbit of a world power","order":"it was on the order of a mile","ordinary":"the ordinary (or common) man in the street","organ":"the organ of the communist party","organic":"an organic disease","organization":"he still remembers the organization of the club","organizer":"she was the organizer of the meeting","orientation":"showed a Marxist orientation","original":"the play is original, not an adaptation","outbreaks":"the outbreak of hostilities","outline":"sketch the outline of the book","overall":"the overall pattern of his life","overfill":"overfill the baskets","overhead":"an overhead crossing","overseas":"overseas markets","overview":"the treasurer gave a brief overview of the financial consequences","owner":"he is the owner of a chain of restaurants","owners":"he is the owner of a chain of restaurants","packaging":"his business is packaging for transport","paddle":"paddle your own canoe","paint":"artists use ‘paint’ and ‘pigment’ interchangeably","painting":"house painting was the only craft he knew","pair":"Pair these numbers","palace":"the palace issued an order binding on all subjects","palaces":"the palace issued an order binding on all subjects","pale":"a pale rendition of the aria","panic":"panic in the stock market","paper":"the notion of an office running without paper is absurd","parcel":"parcel rope","parental":"parental guidance","park":"they put the car in park and got out","parking":"there is plenty of parking behind the store","part-time":"part-time employees","partial":"a partial dose","particulars":"a particular description of the room","partly":"I felt partly to blame","passage":"the outward passage took 10 days","passages":"the outward passage took 10 days","passion":"he has a passion for cock fighting","passive":"academics seem to favor passive sentences","passport":"his wealth was not a passport into the exclusive circles of society","password":"he forgot the password","pastime":"sailing is her favorite pastime","patient":"a patient smile","patients":"a patient smile","pattern":"they changed their dietary pattern","payable":"a note payable on demand","pedestrian":"a pedestrian movie plot","pegs":"peg a tent","perfect":"perfect timing","performance":"they admired his performance under stress","period":"in England they call a period a ‘stop’","permanent":"permanent secretary to the president","permanently":"he is permanently disabled","permission":"he asked permission to leave","permit":"This will permit the rain to run off","person":"a weapon was hidden on his person","personal":"a personal favor","personality":"she is a Hollywood personality","pet":"pet the lamb","phase":"the full phase of the moon","photograph":"Children photograph well","physical":"a physical manifestation","physically":"it is physically impossible","physics":"his favorite subject was physics","piano":"the piano passages in the composition","picnic":"marketing this product will be no picnic","picture":"the very picture of a modern general","pill":"his competitor's success was a bitter pill to take","pits":"a British term for ‘quarry’ is ‘stone pit’","place":"took his place","placement":"the agency provided placement services","plan":"a plan for seating guests","planning":"the planning was more fun than the trip itself","plans":"a plan for seating guests","plant":"they built a large plant to manufacture automobiles","planting":"the planting of corn is hard work","plastic":"the plastic forces of nature","plate":"a vegetable plate","player":"he was a major player in setting up the corporation","plays":"there was heavy play at the blackjack table","pleasant":"I didn't enjoy it and probably wasn't a pleasant person to be around","pleasure":"he took his pleasure of her","plot":"they concocted a plot to discredit the governor","plus":"a plus (or positive) factor","pocket":"the ball hit the pocket and gave him a perfect strike","point":"he stuck the point of the knife into a tree","point of view":"teaching history gave him a special point of view toward current events","poisonous":"poisonous hate","political":"political pressure","politics":"unemployment dominated the politics of the inter-war years","pond":"the pond was too small for sailing","poor":"Oh, you poor thing","pop":"everything went pop","popular":"a democratic or popular movement","port":"port a rifle","portable":"a portable outboard motor","portfolio":"he holds the portfolio for foreign affairs","position":"what position does he play?","positive":"a plus (or positive) factor","possession":"they took possession of the ball on their own goal line","possibility":"bankruptcy is always a possibility","possible":"possible uses of nuclear power","post":"it came by the first post","postal":"postal delivery","posters":"a poster advertised the coming attractions","potential":"a potential problem","power":"the deterrent power of nuclear weapons","practical":"practical mathematics","prayer":"the priest sank to his knees in prayer","precaution":"he put an ice pack on the injury as a precaution","precautions":"he put an ice pack on the injury as a precaution","precious":"an insufferably precious performance","precise":"a precise image","precision":"note the meticulous precision of his measurements","preference":"my own preference is for good literature","preferential":"preferential tariff rates","pregnant":"a silence pregnant with suspense","prescription":"a prescription drug","present":"the present leader","presentation":"the presentation of new data","preservative":"timbers should be treated with a preservative substance","president":"a President is elected every four years","pressure":"he used pressure to stop the bleeding","prevention":"money was allocated to study the cause and prevention of influenza","previous":"the previous owner","principal":"the principal rivers of America","printing":"they ran off an initial printing of 2000 copies","priority":"national independence takes priority over class struggle","private":"secret (or private) thoughts","prize":"prize carnations","proactive":"proactive inhibition","probe":"there was a congressional probe into the scandal","problem":"what's the problem?","procedure":"the procedure of obtaining a driver's license","process":"it was a process of trial and error","processes":"it was a process of trial and error","processing":"the processing of newly arrived immigrants","product":"they improve their product every year","production":"the appellate court demanded the production of all documents","profession":"a profession of Christianity","professional":"the professional man or woman possesses distinctive qualifications","professionally":"professionally trained staff","professionals":"the professional man or woman possesses distinctive qualifications","profile":"a biochemical profile of blood","profound":"the profound depths of the sea","project":"project a missile","prolific":"flying foxes are extremely prolific","promising":"the scandal threatened an abrupt end to a promising political career","prompt":"a prompt reply","prone":"a child prone to mischief","proof":"temptation-proof","property":"self-confidence is not an endearing property","proportion":"an inordinate proportion of the book is given over to quotations","proposal":"they listened to her proposal","prospect":"prospect a job","prospectus":"a prospectus should contain the facts that an investor needs to make an informed decision","protected":"the most protected spot I could find","protection":"every store in the neighborhood had to pay him protection","protein":"a diet high in protein","provision":"he accepted subject to one provision","psychiatric":"psychiatric disorder","psychological":"give psychological support","public":"the public welfare","pump":"pump bullets into the dummy","punctual":"she expected guests to be punctual at meals","purchase":"they closed the purchase with a handshake","pure":"pure and vestal modesty","purple":"purple tyrant","purpose":"he is a man of purpose","purse":"the purse barely covered the winner's expenses","qualification":"his new position involves a qualification of his party's platform","qualifications":"his new position involves a qualification of his party's platform","quality":"people of quality","quality of life":"the new art museum is expected to improve the quality of life","quantity":"he had a quantity of ammunition","quarter":"he surrendered but asked for quarter","question":"there is no question about the validity of the enterprise","quotations":"since he lacks originality he must rely on quotation","rack":"the newspapers were arranged on a rack","radiation":"he was suffering from radiation","rags":"rag ore","rain":"a rain of bullets","random":"a random choice","range":"the army maintains a missile range in the desert","rank":"rank jungle vegetation","rapid":"a rapid rise through the ranks","rare":"rare herbs","rat":"kill the rat","rate":"he works at a great rate","rational":"a rational analysis","rationale":"the rationale for capital punishment","rats":"kill the rat","raw":"raw data","reading":"he has a job meter reading for the gas company","rear":"the chair's rear legs","reason":"we are told that man is endowed with reason and capable of distinguishing good from evil","reassuring":"a very reassuring remark","reception":"the tight end made a great reception on the 20 yard line","recommendation":"her pleasant personality is already a recommendation","recording":"she watched the recording from a sound-proof booth","recovery":"the recovery of the forest after the fire was surprisingly rapid","recreation":"days of joyous recreation with his friends","recreational":"recreational golfers","recruit":"recruit new soldiers","rectangular":"a rectangular Cartesian coordinate system","recycling":"Every Monday, we put our recycling out on the curb for pick-up","red flag":"doing that is like waving a red flag in front of a bull","redundant":"yet another book on heraldry might be thought redundant","reference":"reference to an encyclopedia produced the answer","reflective":"the reflective type","reform":"justice was for sale before the reform of the law courts","refreshments":"time for rest and refreshment by the pool","refrigeration":"refrigeration by immersing the patient's body in a cold bath","refuge":"took refuge in lying","region":"in the abdominal region","regional":"a regional dialect","regular":"took his regular morning walk","regularly":"try to breathe regularly","regulation":"regulation army equipment","regulations":"regulation army equipment","reinforced":"reinforced concrete contains steel bars or metal netting","related":"painting and the related arts","relation":"his attorney argued for the relation back of the amended complaint to the time the initial complaint was filed","relationship":"the relationship between mothers and their children","relaxation":"the relaxation of requirements","relevant":"the scientist corresponds with colleagues in order to learn about matters relevant to her own research","reliable":"a reliable source of information","reliance":"he wrote the paper with considerable reliance on the work of other scientists","relief":"he asked the nurse for relief from the constant pain","religion":"he was raised in the Baptist religion","remark":"it passed without remark","remember":"I can't remember saying any such thing","remote":"remote stars","removal":"he had surgery for the removal of a malignancy","rendezvous":"he was waiting for them at the rendezvous","rent":"Let's rent a car","rental":"rental agreement","repellent":"a water-repellent fabric","repetitive":"repetitive movement","replacement":"the replacement of lost blood by a transfusion of donor blood","report":"he was a person of bad report","representative":"representative government as defined by Abraham Lincoln is government of the people, by the people, for the people","reproduce":"These bacteria reproduce","reputation":"he acquired a reputation as an actor before he started writing","research":"their pottery deserves more research than it has received","reserve":"We managed to reserve a table at Maxim's","reservoir":"an infectious agent depends on a reservoir for its survival","residence":"he refused to live in the governor's residence","resident":"resident aliens","resistant":"plastic highly resistant to steam and water","resort":"an appeal to his uncle was his last resort","resource":"the local library is a valuable resource","respiratory":"respiratory assistance","response":"this situation developed in response to events in Africa","responsibility":"he holds a position of great responsibility","responsible":"determined who was the responsible party","restrained":"restrained in his response","restriction":"the restriction of the infection to a focal area","result":"he computed the result to four decimal places","retail":"I'll sell it to you retail only","retrieval":"my retrieval of people's names is very poor","return":"on his return from Australia we gave him a welcoming party","reverse":"in reverse gear","review":"the platoon stood ready for review","reviews":"the platoon stood ready for review","revision":"it would require a drastic revision of his opinion","reward":"virtue is its own reward","rewarding":"a rewarding career as a paramedic","rhythm":"the rhythm of Frost's poetry","ribbons":"a mere ribbon of land","rice":"rice the potatoes","ridiculous":"her conceited assumption of universal interest in her rather dull children was ridiculous","rising":"a rising young politician","risk":"Why risk your life?","rivals":"Nothing can rival cotton for durability","river":"the river was navigable for 50 miles","road map":"the president said he had a road map for normalizing relations with Vietnam","robust":"a robust tale","rock":"rock is a generic term for the range of styles that evolved out of rock'n'roll.","role":"play its role","roof":"there was a roof on salaries","rotation":"the rotation of the dancer kept time with the music","row":"they won the championship three years in a row","royal":"the royal (or crowned) heads of Europe","rubber":"a rubber check","rule":"violence is the rule not the exception","running":"a running joke among us","rural":"rural people","sack":"the sack of Rome","safe":"a safe trip","safety":"He ran to safety","sail":"The QE2 will sail to Southampton tomorrow","sale":"he has just made his first sale","salt":"a salt apology","sample":"Sample the regional dishes","satellite":"a city and its satellite communities","satisfaction":"the satisfaction of their demand for better services","satisfactory":"the step makes a satisfactory seat","sauce":"sauce the roast","saving":"saving faith","scaffold":"scaffold the building before painting it","scale":"they entertained on a grand scale","scarce":"fresh vegetables were scarce during the drought","scarcely":"had scarcely rung the bell when the door flew open","scary":"a scary movie","school":"the school was built in 1932","science":"the sweet science of pugilism","scientific":"a scientific approach","score":"calling his seduction of the girl a ‘score’ was a typical example of male slang","scores":"calling his seduction of the girl a ‘score’ was a typical example of male slang","scottish":"‘Scottish’ tends to be the more formal term as in ‘The Scottish Symphony’ or ‘Scottish authors’ or ‘Scottish mountains’","screen":"a metal screen protected the observers","scruffy":"a surge of ragged scruffy children","sealed":"a sealed driveway","season":"it was the Christmas season","seasonal":"seasonal labor","seasoned":"a seasoned traveler","seat":"he dusted off the seat before sitting down","second":"second flute","secondary":"played a secondary role in world events","section":"a section of a fishing rod","sector":"he was helpless in an important sector of his life","secure":"he was secure that nothing will be held against him","security":"military security has been stepped up since the recent uprising","segment":"finished the final segment of the road","selection":"the store carried a large selection of shoes","selections":"the store carried a large selection of shoes","semantic":"semantic analysis","senior":"the senior prom","sense":"Common sense is not so common","sensible":"made sensible of his mistakes","sensitive":"a mimosa's leaves are sensitive to touch","sentence":"his sentence was 5 to 10 years","sentences":"his sentence was 5 to 10 years","serial":"serial concerts","serious":"a serious wound","servant":"the state cannot be a servant of the church","servants":"the state cannot be a servant of the church","service":"that restaurant has excellent service","session":"a filming session","set":"with eyes set in a fixed glassy stare","setting":"a place setting of sterling flatware","settlement":"they finally reached a settlement with the union","several":"specialists in their several fields","sewer":"a sewer of fine gowns","sex":"they had sex in the back seat","shade":"as the sun moved he readjusted the shade","shadowy":"we sat on rocks in a shadowy cove","shared":"two shared valence electrons forming a bond between adjacent nuclei","sharp":"a sharp photographic image","shed":"he shed his image as a pushy boss","sheep":"his students followed him like sheep","sheet":"a sheet of ice","shell":"the satellite is covered with a smooth shell of ice","shelter":"After the earthquake, the government could not provide shelter for the thousands of homeless people","ship":"ship the cargo in the hold of the vessel","shopping":"went shopping for a reliable plumber","short":"the salesgirl was very short with him","shower":"he took a shower after the game","sick":"sat completely still, sick with envy","sickness":"drugs have become a sickness they cannot cure","side":"side fences","sight":"out of sight of land","sign":"don't forget the minus sign","signal":"the year saw one signal triumph for the Labour party","silence":"his silence about my contribution was surprising","silent":"a silent curse","silver":"silver speech","similar":"similar food at similar prices","simple":"a simple game","simulation":"a simulation should imitate the internal processes and not merely the results of the thing being simulated","single":"judging a contest with a single eye","sink":"the ocean is a sink for carbon dioxide","site":"the Israeli web site was damaged by hostile hackers","size":"the economy-size package","skeleton":"the building has a steel skeleton","skill":"the skill of a well-trained boxer","skin":"the skin of an airplane","slang":"their speech was full of slang expressions","slave":"a slave to fashion","slaves":"a slave to fashion","sleep":"they had to put their family pet to sleep","sleepy":"beginning to feel sleepy","slim":"a slim girl with straight blonde hair","slip":"a receipt slip","slope":"he climbed the steep slope","slug":"he took a slug of hard liquor","smart":"smart weapons","smell":"she loved the smell of roses","smoke":"he showed batters nothing but smoke","smoking":"a smoking fireplace","sociable":"a sociable gathering","social":"a social cup of coffee","social status":"the British are more aware of social status than Americans are","software":"the market for software is expected to expand","soil":"American troops were stationed on Japanese soil","solar":"solar eclipse","solemn":"a film with a solemn social message","solid":"a solid line across the page","solution":"the solution took three hours","sound":"politicians have no sound grasp of technology issues","soundproof":"a soundproof room","source":"he spent hours looking for the source of that quotation","south":"the south entrance","southern":"southern breezes","space":"write your name in the space provided","spacious":"a spacious ballroom","spare":"a spare diet","speaker":"the speaker at commencement","speaking":"the speaking animal","spears":"spear fish","special":"a special occasion","specialized":"a specialized tool","species":"a species of molecule","specific":"needed a specific amount","specimen":"they collected a urine specimen for urinalysis","speech":"the actor forgot his speech","speed":"the project advanced with gratifying speed","sperm":"a sperm is mostly a nucleus surrounded by little other cellular material","spice":"Spice up the evening by inviting a belly dancer","spine":"the title and author were printed on the spine of the book","sponsor":"The senator announced that he would sponsor the health care plan","spoon":"spoon the sauce over the roast","spoons":"spoon the sauce over the roast","spot":"night spot","spray":"a spray of bullets","stable":"the economy is stable","stack":"stack the deck of cards","stacks":"she amassed stacks of newspapers","staff":"he walked with the help of a wooden staff","stage":"then we embarked on the second stage of our Caribbean cruise","stale":"stale bread","standard":"standard procedure","star":"a star figure skater","stars":"a star figure skater","starter":"to make sourdough you need a starter","starting":"the starting point","state":"the Department of State was created in 1789","statement":"according to his statement he was in London on that day","states":"the Department of State was created in 1789","station":"he started looking for a gas station","status":"the current status of the arms negotiations","steady":"steady nerves","steam":"just steam the vegetables","steep":"the steep attic stairs","stems":"thematic vowels are part of the stem","step":"he taught them the waltz step","sticks":"the policy so far is all stick and no carrot","stiff":"a palace guardsman stiff as a poker","stimulate":"Coffee and tea stimulate me","sting":"the police conducted a sting operation","stock":"a stock answer","stomach":"exercise gave him a good stomach for dinner","stone":"he wanted a special stone to mark the site","stones":"he wanted a special stone to mark the site","storage":"my car is in storage","store":"he brought back a large store of Cuban cigars","stories":"the story of exposure to lead","stormy":"a stormy day","story":"the story of exposure to lead","stout":"men are portly and women are stout","stove":"dinner was already on the stove","strained":"a strained smile","stream":"he felt a stream of air","strength":"fatigue sapped his strength","stress":"he put the stress on the wrong syllable","stressful":"the stressful days before a war","strike":"the strike was scheduled to begin at dawn","string":"a string of beads","stripe":"businessmen of every stripe joined in opposition to the proposal","strong":"gave a strong pull on the rope","studio":"she ran a dance studio","stuff":"the trunk was full of stuff","style":"a cartilaginous style","styles":"a cartilaginous style","stylish":"a little less posh but every bit as stylish as Lord Peter Wimsey","subject":"the bond is subject to taxation","subjective":"a subjective judgment","submit":"I submit to you that the accused is guilty","subsequent":"subsequent developments","subsidy":"a subsidy for research in artificial intelligence","substantial":"won by a substantial margin","success":"his success in the marathon was unexpected","successful":"a successful architect","suction":"suction the uterus in an abortion","sufficient":"sufficient food","sugar":"sugar your tea","suggestion":"the picnic was her suggestion","suit":"the family brought suit against the landlord","suitable":"the parents found the girl suitable for their son","summary":"a summary formulation of a wide-ranging subject","summer":"the golden summer of his life","summit":"the region is a few molecules wide at the summit","super":"a super experiment","supplement":"supplement your diet","supplementary":"produced supplementary volumes","supply":"supply blankets for the beds","support":"the strongest support for this view is the work of Jones","supportive":"a supportive family network","supports":"the strongest support for this view is the work of Jones","surface":"surface materials of the moon","surgery":"he died while undergoing surgery","surprised":"surprised by her student's ingenuity","surprising":"the report shows a surprising lack of hard factual data","surrounding":"the surrounding countryside","survey":"his survey of the battlefield was limited","swimmer":"he is not a good swimmer","swimming":"swimming eyes","switch":"his switch on abortion cost him the election","switches":"his switch on abortion cost him the election","symbols":"the eagle is a symbol of the United States","syndrome":"every word has a syndrome of meanings","synthetic":"‘all men are arrogant’ is a synthetic proposition","system":"he bought a new stereo system","systematic":"the investigation was very systematic","table":"it was a sturdy table","tablet":"a tablet of soap","tablets":"a tablet of soap","take notes":"Take note of this chemical reaction","takeaway":"in England they call takeout food ‘takeaway’","tangible":"tangible evidence","tape":"he used a piece of tape for a belt","tape measure":"the carpenter should have used his tape measure","tart":"a tart remark","tea":"an Englishman would interrupt a war to have his afternoon tea","teacher":"experience is a demanding teacher","teaching":"good classroom teaching is seldom rewarded","technical":"analysts content that the stock market is due for a technical rally","technology":"the mastery of fire was a huge advance in human technology","telephone":"I talked to him on the telephone","telescope":"my hiking sticks telescope and can be put into the backpack","temper":"his temper was well known to all his employees","temple":"the veins in his temple throbbed","temples":"the veins in his temple throbbed","tent":"he pitched his tent near the creek","term":"the general term of an algebraic equation of the n-th degree","terminology":"legal terminology","terrestrial":"the nearest to an angelic being that treads this terrestrial ball","territory":"his questions covered a lot of territory","testimony":"his effort was testimony to his devotion","text":"there were more than a thousand words of text","textbook":"a textbook example","textile":"textile research","texture":"breadfruit has the same texture as bread","theatrical":"a theatrical pose","theme":"it was the usual ‘boy gets girl’ theme","theoretical":"theoretical science","theory":"a scientific hypothesis that survives experimental testing becomes a scientific theory","therapy":"heat therapy gave the best relief","thinking":"thinking always made him frown","third":"third we must consider unemployment","thought":"she paused for thought","thread":"he lost the thread of his argument","threat":"his threat to kill me was quite explicit","thriving":"a thriving tourist center","ticket":"this car could be just the ticket for a small family","tide":"a rising tide of popular interest","tides":"a rising tide of popular interest","tile":"tile the wall and the floor of the bathroom","time":"he had a time holding back the tears","title":"his title to fame","toilet":"he made his morning toilet and went to breakfast","toleration":"all people should practice toleration and live together in peace","tone":"the general tone of articles appearing in the newspapers is that the government should withdraw","tones":"the general tone of articles appearing in the newspapers is that the government should withdraw","top":"the top shelf","topic":"he kept drifting off the topic","total":"a total failure","touching":"his gratitude was simple and touching","tour":"they took an extended tour of Europe","tourism":"Tourism is a major business in Bermuda","towel":"towel your hair dry","tower":"a tower of dust rose above the horizon","town":"the whole town cheered the team","track":"the title track of the album","trade":"he learned his trade as an apprentice","traditional":"traditional history","traffic":"heavy traffic overloaded the trunk lines","trails":"the trail led straight to the perpetrator","transit":"The canal will transit hundreds of ships every day","trash":"trash these old chairs","travel":"he enjoyed selling but he hated the travel","treatment":"the quarterback is undergoing treatment for a knee injury","trend":"not openly liberal but that is the trend of the book","triangle":"the coastline of Chile and Argentina and Brazil forms two legs of a triangle","trip":"he recited the whole poem without a single trip","tropical":"tropical weather","trouble":"I went to a lot of trouble","troublesome":"a troublesome infection","trumpet":"Liberals like to trumpet their opposition to the death penalty","trunk":"he put his golf bag in the trunk","tube":"in Paris the subway system is called the ‘metro’ and in London it is called the ‘tube’ or the ‘underground’","tuition":"tuition and room and board were more than $25,000","tune":"he cannot sing in tune","tunes":"he cannot sing in tune","tunnel":"the tunnel reduced congestion at that intersection","tunnels":"the tunnel reduced congestion at that intersection","turf":"a bureaucracy … chiefly concerned with turf … and protecting the retirement system","tusk":"tusk an elephant","tutorial":"tutorial sessions","tutorials":"tutorial sessions","twilight":"the twilight glow of the sky","type":"he dropped a case of type, so they made him pick them up","typical":"that is typical of you!","ultimate":"the ultimate sonata of that opus","ultraviolet":"ultraviolet radiation","umbrella":"an umbrella organization","umpire":"an umpire was appointed to settle the tax case","unanimous":"a unanimous decision","uncomfortable":"an uncomfortable chair","unconvincing":"as unconvincing as a forced smile","underground":"underground resistance","understanding":"an understanding friend","unfair":"used unfair methods","unhealthy":"an unhealthy diet of fast foods","uniform":"at regular (or uniform) intervals","union":"Union soldiers","unique":"spoke with a unique accent","united":"a united effort","unreliable":"in the early 1950s computers were large and expensive and unreliable","unsanitary":"unsanitary open sewers","unsocial":"the unsocial disposition to neglect one's neighbors","unusual":"two-career families are no longer unusual","usage":"English usage","useful":"the girl felt motherly and useful","useless":"a kitchen full of useless gadgets","usual":"grew the usual vegetables","vacation":"we get two weeks of vacation every summer","vacuum":"without their support he'll be ruling in a vacuum","valuable":"a valuable diamond","value":"the Shakespearean Shylock is of dubious value in the modern world","variable":"a variable capacitor","variables":"a variable capacitor","variation":"any variation in his routine was immediately reported","varied":"her quickly varied answers indicated uncertainty","variety":"the range and variety of his work is amazing","various":"the various reports all agreed","vegetation":"their holiday was spent in sleep and vegetation","vehicle":"his editorials provided a vehicle for his political views","vent":"he gave vent to his anger","verbal":"verbal imagery","versions":"an experimental version of the night fighter","vertical":"vertical social mobility","vet":"Someone should vet this report before it goes out","video":"she is a star of screen and video","view":"he tried to get a better view of it","violent":"violent passions","virtual":"a virtual dependence on charity","virtually":"virtually all the parties signed the contract","virus":"a true virus cannot spread to another computer without human assistance","visibility":"a windshield with good visibility","visible":"a visible supply","vision":"the runners emerged from the trees into his clear vision","visual":"a visual presentation","vocal":"a vocal assembly","voluntary":"man is a voluntary agent","volunteer":"a volunteer fire department","volunteers":"a volunteer fire department","vulnerable":"vulnerable parts of the body","walk":"he took a walk after lunch","walking":"walking distance","wall":"the south wall had a small window","warm":"you're getting warm","warming":"a warming fire","warnings":"the warning was to beware of surprises","washable":"washable woolens","waste":"waste places","water":"the town debated the purification of the water supply","waterproof":"Waterproof the coat","wave":"a wave of settlers","wax":"wax the car","wealth":"she has a wealth of talent","wealthy":"wealthy corporations","weapon":"he was licensed to carry a weapon","weather":"they were hoping for good weather","weed":"weed the garden","weeds":"weed the garden","week":"they worked a 40-hour week","weekly":"a weekly visit","weight":"his opinion carries great weight","weird":"the three weird sisters","welfare":"she lives on welfare","west":"we moved west to Arizona","western":"our company's western office","whistle":"the whistle signalled the end of the game","whole":"gave his whole attention","wholesale":"wholesale destruction","wide":"the kick was wide","wildlife":"chemicals could kill all the wildlife","willing":"a willing participant","wind":"he put the key in the old clock and gave it a good wind","wing":"in Britain they call a fender a ‘wing’","wise":"Don't get wise with me!","wood carving":"Some of the finest extant examples of early European wood carving are from the Middle Ages in Germany, Russia, Italy and France, where the typical themes of that era were Christian iconography.","word":"he went to carry the Word to the heathen","working":"discussed the working draft of a peace treaty","world":"a world crisis","worthwhile":"a worthwhile book","worthy":"behavior worthy of reprobation","wound":"he feared that mentioning it might reopen the wound","wreckage":"they searched the wreckage for signs of survivors","writing":"she did the thinking while he did the writing","year":"she was in my year at Hoehandle High","youth":"youth everywhere rises in revolt","zero":"a zero score","zoological":"zoological garden"};
+
 // ── HELPERS ──
 const VARIANTS=[['organise','organize'],['organisation','organization'],['colour','color'],
 ['licence','license'],['practise','practice'],['defence','defense'],['offence','offense'],
@@ -6448,6 +6495,26 @@ function fmtDateFull(d){return d.toLocaleDateString('zh-CN',{year:'numeric',mont
 
 // ── STATE ──
 let curChap=null,curWords=[],wbMode=false,curShuffle=false,wbSortBy='count',alignmentHistory=[],activeInputIndex=0;
+let revealedAnswers=new Set(),openWordHelp=new Set();
+
+const EXAMPLE_KEY='wl3_examples_v1';
+let exampleCache=getLS(EXAMPLE_KEY),exampleRequests=new Map();
+const CURATED_EXAMPLES={
+  bananas:'She bought some bananas at the market.',
+  insurance:'Travel insurance can cover unexpected medical costs.',
+  town:'She grew up in a small town near the coast.',
+  hostel:'We stayed in a friendly hostel near the station.',
+  qualifications:'This job requires professional qualifications.',
+  photography:'She studies photography at college.',
+  photograph:'He took a photograph of the old bridge.',
+  venue:'The conference venue is close to the airport.',
+  tutorial:'I watched a tutorial before using the new software.',
+  website:'The website provides information for new students.'
+};
+// 旧版会永久缓存“未收录”，导致联网后也无法重试；这里只保留真正查到的内容。
+Object.keys(exampleCache).forEach(key=>{
+  if(!['found','definition'].includes(exampleCache[key]?.state))delete exampleCache[key];
+});
 
 // ── STORAGE ──
 function getHist(){return getLS('wl3_hist');}
@@ -6731,6 +6798,8 @@ function startDict(chap,words,opts){
   stopBlock();
   alignmentHistory=[];
   activeInputIndex=0;
+  revealedAnswers=new Set();
+  openWordHelp=new Set();
   curChap=chap;
   curShuffle=!!(opts&&opts.shuffle);
   wbMode=!!words&&!curShuffle;
@@ -6745,8 +6814,8 @@ function startDict(chap,words,opts){
   qs('#d-chap').textContent=curShuffle?`章节 ${chap} · 乱序`:(wbMode?'错词练习':`章节 ${chap}`);
   qs('#d-meta').textContent=wbMode?today:(curShuffle?`乱序测试 · 第 ${sessionNum} 次 · ${today}`:`第 ${sessionNum} 次 · ${today}`);
   qs('#d-footer-info').textContent=curShuffle
-    ?'乱序听写 · 输入单词，按 Enter 跳下一格 · 按 F2 播放当前词'
-    :(wbMode?'输入单词，按 Enter 跳下一格 · 按 F2 播放当前词':'输入单词，按 Enter 跳下一格 · 按 F2 播放当前词 · 开启「自动」后光标到空格自动发音');
+    ?'乱序听写 · Enter 跳下一格 · F2 播放 · 每行右侧可查看答案和例句'
+    :(wbMode?'Enter 跳下一格 · F2 播放 · 每行右侧可查看答案和例句':'Enter 跳下一格 · F2 播放 · 每行右侧可查看答案和例句');
 
   buildRows();
   showScreen('dict');
@@ -6766,6 +6835,28 @@ function buildRows(){
         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="">
       <div class="row-answer" id="ans-${i}"></div>
       <div class="row-icon" id="ico-${i}"></div>
+      <div class="row-actions">
+        <button type="button" class="row-tool" id="answer-btn-${i}" onclick="toggleAnswer(${i})"
+          aria-expanded="false" title="显示或隐藏本词的正确拼写">答案</button>
+        <button type="button" class="row-tool" id="help-btn-${i}" onclick="toggleWordHelp(${i})"
+          aria-expanded="false" title="查看中文释义、音标和英文例句">释义/例句</button>
+      </div>
+      <div class="row-detail" id="detail-${i}">
+        <div class="detail-top">
+          <span class="detail-word" id="detail-word-${i}"></span>
+          <span class="detail-phon" id="detail-phon-${i}"></span>
+          <span class="detail-mean" id="detail-mean-${i}"></span>
+        </div>
+        <div class="detail-example" id="detail-example-${i}">
+          <div class="detail-offline"><span class="detail-label" id="detail-offline-label-${i}">离线助记</span><span id="detail-offline-${i}"></span><button type="button" class="example-play" id="detail-offline-play-${i}" onclick="playExample(${i},'offline')" title="使用当前语速朗读本地例句" hidden>🔊 朗读</button></div>
+          <span class="detail-label">英文例句</span><span id="detail-status-${i}">正在联网补充…</span>
+          <span class="detail-example-text" id="detail-example-text-${i}"></span>
+          <button type="button" class="example-play" id="detail-online-play-${i}" onclick="playExample(${i},'online')" title="使用当前语速朗读联网例句" hidden>🔊 朗读</button>
+          <div class="detail-definition" id="detail-definition-${i}"></div>
+          <button type="button" class="detail-retry" id="detail-retry-${i}" onclick="retryWordExample(${i})">重试联网</button>
+          <a class="detail-more" id="detail-more-${i}" target="_blank" rel="noopener noreferrer">查看更多例句 ↗</a>
+        </div>
+      </div>
     </div>`;
   });
   scroll.innerHTML=html;
@@ -6789,16 +6880,277 @@ function buildRows(){
     });
     inp.addEventListener('input',()=>{
       const inp2=document.getElementById('inp-'+i);
-      if(inp2.classList.contains('ok')||inp2.classList.contains('err')){
+      if(inp2.classList.contains('ok')||inp2.classList.contains('err')||inp2.classList.contains('skip')){
         inp2.className='row-input';
-        document.getElementById('ans-'+i).textContent='';
-        document.getElementById('ans-'+i).className='row-answer';
         document.getElementById('ico-'+i).textContent='';
+        renderRowAnswer(i);
       }
     });
   });
   updateStrip(0);
   updateAlignmentButtons();
+}
+
+function selectPracticeRow(i){
+  activeInputIndex=i;
+  document.querySelectorAll('.row').forEach(r=>r.classList.remove('active-row'));
+  const row=document.getElementById('row-'+i);
+  if(row)row.classList.add('active-row');
+}
+
+function renderRowAnswer(i){
+  const ansEl=document.getElementById('ans-'+i);
+  const inp=document.getElementById('inp-'+i);
+  if(!ansEl||!inp||!curWords[i])return;
+  const gradedWrong=inp.classList.contains('err')||inp.classList.contains('skip');
+  if(gradedWrong){
+    ansEl.textContent=curWords[i].w;
+    ansEl.className='row-answer reveal-err';
+  }else if(revealedAnswers.has(i)){
+    ansEl.textContent=curWords[i].w;
+    ansEl.className='row-answer reveal-hint';
+  }else{
+    ansEl.textContent='';
+    ansEl.className='row-answer';
+  }
+}
+
+function toggleAnswer(i){
+  if(!curWords[i])return;
+  selectPracticeRow(i);
+  const show=!revealedAnswers.has(i);
+  if(show)revealedAnswers.add(i);else revealedAnswers.delete(i);
+  const btn=document.getElementById('answer-btn-'+i);
+  if(btn){
+    btn.classList.toggle('on',show);
+    btn.textContent=show?'隐藏':'答案';
+    btn.setAttribute('aria-expanded',String(show));
+  }
+  renderRowAnswer(i);
+}
+
+function toggleWordHelp(i){
+  const word=curWords[i];
+  if(!word)return;
+  selectPracticeRow(i);
+  const show=!openWordHelp.has(i);
+  const detail=document.getElementById('detail-'+i);
+  const btn=document.getElementById('help-btn-'+i);
+  if(show)openWordHelp.add(i);else openWordHelp.delete(i);
+  if(detail)detail.classList.toggle('on',show);
+  if(btn){
+    btn.classList.toggle('on',show);
+    btn.textContent=show?'收起':'释义/例句';
+    btn.setAttribute('aria-expanded',String(show));
+  }
+  if(!show)return;
+
+  document.getElementById('detail-word-'+i).textContent=word.w;
+  document.getElementById('detail-phon-'+i).textContent=word.p?`/${word.p}/`:'';
+  document.getElementById('detail-mean-'+i).textContent=word.m||'暂无中文释义';
+  renderOfflineSupport(i,word);
+  const more=document.getElementById('detail-more-'+i);
+  more.href='https://dict.youdao.com/result?word='+encodeURIComponent(word.w)+'&lang=en';
+  loadWordExample(i,word.w);
+}
+
+function exampleCacheKey(word){return norm(word);}
+
+function offlineMemorySentence(word){
+  const term=dictionaryTerm(word.w)||word.w;
+  const meaning=String(word.m||'当前语料库中的对应释义').replace(/\s+/g,' ').replace(/[；;。]+$/,'');
+  const kind=/\s/.test(term)?'短语':'单词';
+  return `听到 “${word.w}” 时，记住这个${kind}表示“${meaning}”。`;
+}
+
+function renderOfflineSupport(i,word){
+  const label=document.getElementById('detail-offline-label-'+i);
+  const content=document.getElementById('detail-offline-'+i);
+  const play=document.getElementById('detail-offline-play-'+i);
+  if(!label||!content||!play)return;
+  const key=dictionaryTerm(word.w).toLowerCase();
+  const curatedExample=CURATED_EXAMPLES[key];
+  const localExample=curatedExample||OFFLINE_EXAMPLES[key];
+  if(localExample){
+    label.textContent='本地例句';
+    label.title=curatedExample?'应用内置例句':'Open English WordNet 2025 · CC BY 4.0';
+    content.textContent=`“${localExample}”`;
+    play.dataset.text=localExample;
+    play.hidden=false;
+  }else{
+    label.textContent='离线助记';
+    label.title='使用语料库内置释义生成';
+    content.textContent=offlineMemorySentence(word);
+    play.dataset.text='';
+    play.hidden=true;
+  }
+}
+
+function cacheExample(word,result){
+  const key=exampleCacheKey(word);
+  exampleCache[key]=Object.assign({},result,{cachedAt:Date.now()});
+  const keys=Object.keys(exampleCache);
+  if(keys.length>1000){
+    keys.sort((a,b)=>(exampleCache[a].cachedAt||0)-(exampleCache[b].cachedAt||0));
+    keys.slice(0,keys.length-1000).forEach(k=>delete exampleCache[k]);
+  }
+  try{setLS(EXAMPLE_KEY,exampleCache);}catch(e){}
+}
+
+function dictionaryTerm(word){
+  return word.replace(/\([^)]*\)/g,' ').replace(/\s*=.*$/,'').replace(/\s+/g,' ').trim();
+}
+
+function findDictionaryExample(data){
+  let definition='',fallbackDefinition='',example='';
+  (Array.isArray(data)?data:[]).some(entry=>(entry.meanings||[]).some(meaning=>(meaning.definitions||[]).some(item=>{
+    if(!fallbackDefinition&&item.definition)fallbackDefinition=item.definition;
+    if(item.example){example=item.example;definition=item.definition||fallbackDefinition;return true;}
+    return false;
+  })));
+  return {example,definition:definition||fallbackDefinition};
+}
+
+function findFreeDictionaryExample(data){
+  let definition='',example='';
+  (Array.isArray(data)?data:[]).some(entry=>(entry.meanings||[]).some(meaning=>{
+    if(!definition&&meaning.definition)definition=meaning.definition;
+    const examples=Array.isArray(meaning.examples)?meaning.examples:[];
+    if(examples.length){example=examples[0];definition=meaning.definition||definition;return true;}
+    return false;
+  }));
+  return {example,definition};
+}
+
+function findLocalProxyExample(data){
+  return {example:data&&data.example||'',definition:data&&data.definition||'',source:data&&data.source||'本地词典代理'};
+}
+
+const LOCAL_PROXY_AVAILABLE=/^https?:$/.test(location.protocol)&&/^(?:127\.0\.0\.1|localhost)$/.test(location.hostname);
+const DICTIONARY_PROVIDERS=[
+  ...(LOCAL_PROXY_AVAILABLE?[{name:'本地词典代理',url:term=>'/api/dictionary?word='+encodeURIComponent(term),parse:findLocalProxyExample}]:[]),
+  {name:'Dictionary API',url:term=>'https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(term),parse:findDictionaryExample},
+  {name:'FreeDictionary.dev',url:term=>'https://api.freedictionary.dev/api/v1/entries/en/'+encodeURIComponent(term),parse:findFreeDictionaryExample}
+];
+
+async function fetchDictionaryProvider(provider,term){
+  const ctrl=('AbortController'in window)?new AbortController():null;
+  const timer=ctrl?setTimeout(()=>ctrl.abort(),5500):null;
+  try{
+    const response=await fetch(provider.url(term),ctrl?{signal:ctrl.signal}:undefined);
+    if(response.status===404)return {state:'missing'};
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const found=provider.parse(await response.json());
+    return {state:found.example?'found':(found.definition?'definition':'missing'),example:found.example,definition:found.definition,source:found.source||provider.name};
+  }catch(error){
+    return {state:error&&error.name==='AbortError'?'timeout':'error'};
+  }finally{
+    if(timer)clearTimeout(timer);
+  }
+}
+
+function requestWordExample(word){
+  const key=exampleCacheKey(word);
+  if(exampleCache[key])return Promise.resolve(Object.assign({},exampleCache[key],{fromCache:true}));
+  if(exampleRequests.has(key))return exampleRequests.get(key);
+
+  const term=dictionaryTerm(word);
+  const request=(async()=>{
+    if(!term||!('fetch'in window))return {state:'error'};
+    if('onLine'in navigator&&!navigator.onLine)return {state:'offline',example:'',definition:''};
+    try{
+      let lastState='missing';
+      for(const provider of DICTIONARY_PROVIDERS){
+        const result=await fetchDictionaryProvider(provider,term);
+        if(result.state==='found'||result.state==='definition'){
+          cacheExample(word,result);return result;
+        }
+        if(result.state==='timeout'||result.state==='error')lastState=result.state;
+      }
+      if(lastState==='timeout')return {state:'timeout',example:'',definition:''};
+      if(lastState==='error')return {state:location.protocol==='file:'?'local-file':'error',example:'',definition:''};
+      return {state:'missing',example:'',definition:''};
+    }finally{
+      exampleRequests.delete(key);
+    }
+  })();
+  exampleRequests.set(key,request);
+  return request;
+}
+
+function renderExampleResult(i,result){
+  const status=document.getElementById('detail-status-'+i);
+  const example=document.getElementById('detail-example-text-'+i);
+  const definition=document.getElementById('detail-definition-'+i);
+  const retry=document.getElementById('detail-retry-'+i);
+  const play=document.getElementById('detail-online-play-'+i);
+  if(!status||!example||!definition||!retry||!play)return;
+  example.textContent='';definition.textContent='';
+  play.dataset.text='';play.hidden=true;
+  retry.classList.remove('on');
+  if(result.state==='found'){
+    status.textContent=result.fromCache?'本机缓存：':`在线获取（${result.source||'词典'}）：`;
+    example.textContent=result.example?`“${result.example}”`:'';
+    play.dataset.text=result.example||'';
+    play.hidden=!result.example;
+    definition.textContent=result.definition?'英文释义：'+result.definition:'';
+  }else if(result.state==='definition'){
+    status.textContent=result.fromCache?'本机缓存暂无例句。':'在线词典只返回了释义，已保留离线助记句。';
+    definition.textContent=result.definition?'英文释义：'+result.definition:'';
+  }else if(result.state==='missing'){
+    status.textContent='在线词典暂未收录，已显示离线助记句。';
+    retry.classList.add('on');
+  }else if(result.state==='offline'){
+    status.textContent='当前没有网络，已显示离线助记句。';
+    retry.classList.add('on');
+  }else if(result.state==='timeout'){
+    status.textContent='两个词典接口均连接超时；当前网络可能无法访问它们。';
+    retry.classList.add('on');
+  }else if(result.state==='local-file'){
+    status.textContent='file:// 无法稳定跨域联网；请双击“启动本地版.bat”后使用 localhost 页面。';
+    retry.classList.add('on');
+  }else{
+    status.textContent='两个词典接口均不可用，已保留本地内容。';
+    retry.classList.add('on');
+  }
+}
+
+async function loadWordExample(i,word){
+  const status=document.getElementById('detail-status-'+i);
+  const example=document.getElementById('detail-example-text-'+i);
+  const definition=document.getElementById('detail-definition-'+i);
+  const retry=document.getElementById('detail-retry-'+i);
+  const play=document.getElementById('detail-online-play-'+i);
+  if(status)status.textContent='正在联网补充…';
+  if(example)example.textContent='';
+  if(definition)definition.textContent='';
+  if(retry)retry.classList.remove('on');
+  if(play){play.dataset.text='';play.hidden=true;}
+  renderExampleResult(i,await requestWordExample(word));
+}
+
+function retryWordExample(i){
+  if(!curWords[i])return;
+  loadWordExample(i,curWords[i].w);
+}
+
+function playExample(i,source){
+  const button=document.getElementById(`detail-${source}-play-${i}`);
+  const text=button&&button.dataset.text;
+  if(!button||!text)return;
+  if(speakingExampleButton===button){stopSpeech();return;}
+  stopBlock();
+  const myId=++speakSeq;
+  speakingExampleButton=button;
+  button.classList.add('speaking');
+  button.textContent='⏹ 停止';
+  ttsSentenceChain(text,audioSettings.rate,myId,()=>playExample(i,source)).then(ok=>{
+    if(myId!==speakSeq)return;
+    button.classList.remove('speaking');
+    button.textContent='🔊 朗读';
+    if(speakingExampleButton===button)speakingExampleButton=null;
+    if(!ok)showTtsHint();
+  });
 }
 
 function advanceFrom(i){
@@ -6830,10 +7182,7 @@ function updateAlignmentButtons(){
 
 function clearGradingState(){
   document.querySelectorAll('.row-input').forEach(inp=>{inp.className='row-input';});
-  document.querySelectorAll('.row-answer').forEach(el=>{
-    el.textContent='';
-    el.className='row-answer';
-  });
+  curWords.forEach((_,i)=>renderRowAnswer(i));
   document.querySelectorAll('.row-icon').forEach(el=>{el.textContent='';});
 }
 
@@ -6902,23 +7251,20 @@ function checkAll(){
   curWords.forEach((w,i)=>{
     const inp=document.getElementById('inp-'+i);
     const val=inp.value.trim();
-    const ansEl=document.getElementById('ans-'+i);
     const icoEl=document.getElementById('ico-'+i);
     if(!val){
       inp.className='row-input skip';
-      ansEl.textContent=w.w;ansEl.className='row-answer reveal-err';
       icoEl.textContent='·';
       addToWb(w.w,w.p,w.m,curChap);
     } else if(isOk(val,w.w)){
       inp.className='row-input ok';
-      ansEl.textContent='';ansEl.className='row-answer';
       icoEl.textContent='✓';correct++;
     } else {
       inp.className='row-input err';
-      ansEl.textContent=w.w;ansEl.className='row-answer reveal-err';
       icoEl.textContent='✗';
       addToWb(w.w,w.p,w.m,curChap);
     }
+    renderRowAnswer(i);
   });
   qs('#d-rail').style.width='100%';
   qs('#d-stat').textContent=`✓ ${correct} / ${total}`;
@@ -7190,6 +7536,7 @@ let audioUrls=getLS(AURL_KEY);
 let voices=[],voicesLoaded=false,badVoices=new Set();
 let blockTimer=null,blockRunning=false,speakingRow=-1,audioEl=null,speakSeq=0;
 let activeAudioCancel=null,activeSpeechCancel=null;
+let speakingExampleButton=null;
 let audioStatusTimer=null,audioStatusPrevious='',audioStatusText='',audioStatusSeq=0;
 
 function audioStatusIsCurrent(el){
@@ -7243,7 +7590,7 @@ if('speechSynthesis'in window&&speechSynthesis.onvoiceschanged!==undefined){
   speechSynthesis.onvoiceschanged=initVoices;
 }
 
-// 语音评分：优先离线英音（Online/Natural/Neural 多为联网语音，本地/离线时可能静默失败）
+// 语音评分：优先离线英音，整句朗读时也允许浏览器联网语音直接尝试。
 function voiceScore(v){
   const name=v.name||'';
   const lang=(v.lang||'').toLowerCase().replace('_','-');
@@ -7293,23 +7640,20 @@ function ttsText(w){
   return t.replace(/\ba\b/gi,m=>m==='A'?'A':'uh');
 }
 
-function ttsPlay(text,rate,playId){
+function ttsPlay(text,rate,playId,options){
   return new Promise(res=>{
     if(!('speechSynthesis'in window)){res(false);return;}
     waitVoices(1200).then(()=>{
       if(!playbackIsCurrent(playId)){res(null);return;}
       const t=ttsText(text);
       const sp=rate||audioSettings.rate;
+      const localOnly=!!(options&&options.localOnly);
       const candidates=[...voices]
         .filter(v=>/^en/i.test(v.lang||''))
+        .filter(v=>!localOnly||v.localService!==false)
         .sort((a,b)=>voiceScore(b)-voiceScore(a))
         .slice(0,4);
       if(!candidates.length){res(false);return;}
-      // 没有本地英文语音（如 Chrome 只有 Google 联网语音）时，跳过耗时的逐语音尝试，直接交给在线音频
-      if(!candidates.some(v=>v.localService!==false)){
-        showAudioStatus('浏览器无可用本地英语语音，直接使用在线发音',{duration:2000});
-        res(false);return;
-      }
       let resolved=false,attemptCleanup=()=>{};
       const done=value=>{
         if(resolved)return;
@@ -7429,6 +7773,10 @@ function googleTtsUrl(text){
   return 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-gb&q='+encodeURIComponent(text);
 }
 
+function youdaoSentenceUrl(text){
+  return 'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&le=eng';
+}
+
 function youdaoLabel(type,byToken){
   return '有道'+(type===2?'英音':'美音')+(byToken?'（逐词）':'');
 }
@@ -7496,6 +7844,35 @@ async function ttsChain(text,rate,playId,onRetry){
   showAudioStatus('浏览器合成语音不可用，正在尝试在线语音',{duration:2400});
   if(!await waitPlaybackNotice(700,playId))return false;
   return ttsAudio(text,rate,playId,onRetry);
+}
+
+// 例句必须保持整句节奏：本地/浏览器语音失败后只尝试整句音频，绝不拆成逐词播放。
+async function ttsSentenceChain(text,rate,playId,onRetry){
+  const cleaned=ttsText(text).trim();
+  const localResult=await ttsPlay(text,rate,playId,{localOnly:LOCAL_PROXY_AVAILABLE});
+  if(localResult===true)return true;
+  if(localResult===null||!playbackIsCurrent(playId))return false;
+  if(LOCAL_PROXY_AVAILABLE){
+    showAudioStatus('正在使用 Windows 本地整句语音',{duration:2000});
+    const localUrl='/api/tts?text='+encodeURIComponent(cleaned)+'&rate='+encodeURIComponent(rate||1);
+    const localAudio=await playRemoteAudio(localUrl,'Windows 本地整句语音',rate,playId);
+    if(localAudio==='ended')return true;
+    if(localAudio==='cancelled')return false;
+    showSourceFallback('Windows 本地整句语音',localAudio,'有道整句发音');
+    if(!await waitPlaybackNotice(400,playId))return false;
+  }
+  showAudioStatus('浏览器整句语音不可用，正在尝试有道整句发音',{duration:2400});
+  if(!await waitPlaybackNotice(500,playId))return false;
+  let result=await playRemoteAudio(youdaoSentenceUrl(cleaned),'有道整句发音',rate,playId);
+  if(result==='ended')return true;
+  if(result==='cancelled')return false;
+  showSourceFallback('有道整句发音',result,'Google 整句发音');
+  if(!await waitPlaybackNotice(500,playId))return false;
+  result=await playRemoteAudio(googleTtsUrl(cleaned),'Google 整句发音',rate,playId);
+  if(result==='ended')return true;
+  if(result==='cancelled')return false;
+  showAudioStatus('整句发音失败：请安装 Windows 英语语音，或检查网络/代理',{retry:true,onRetry:onRetry});
+  return false;
 }
 
 function testVoice(){
@@ -7583,6 +7960,11 @@ function stopSpeech(){
   if(activeAudioCancel){const cancel=activeAudioCancel;activeAudioCancel=null;cancel();}
   else if(audioEl){try{audioEl.pause();}catch(e){}audioEl=null;}
   clearAudioStatus();
+  if(speakingExampleButton){
+    speakingExampleButton.classList.remove('speaking');
+    speakingExampleButton.textContent='🔊 朗读';
+    speakingExampleButton=null;
+  }
   if(speakingRow>=0){flashRow(speakingRow,false);speakingRow=-1;}
 }
 
